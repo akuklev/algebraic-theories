@@ -10,12 +10,11 @@ Unfortunatelly, the formalizm of algebraic theories is too weak to deal with obj
 Algebraic theories turn out to have a very natural semantics in terms of category theory. Every algebraic theory `T` can be seen as a (finite or recursively generated) presentation for a small finite-product-categories `CartCat<T>`. Models of the theory `T` (the `T`-algebras) correspond to product-preserving functors from `CartCat<T>`, homomorphisms between models to the natural transformations between these functors.
 
 The formalism of essentially algebraic theories (EAT) is a generalization to algebraic theories where one can additionally have positive equational requirements in premises, say
-<pre>
 ```
- f g : Mor   f.target = g.source
-–––––––––————————————————————————–––
-          fg : Mor
-```</pre>
+   f g : Mor    codom(f) = dom(g)
+ –––––––––———————————————————————––
+           fg : Mor
+```
 
 On the semantic side (EAT retain the functorial semantics described above) this amounts to allowing fibered products of sorts in addition to cartesian products as domains of operations. Thus an EAT `T` is a presentation of a finitely-complete category `LexCat<T>`, the models are given by finite-limit preserving functors, and homomorphisms between models by natural transformations between those. On the logical side, EATs are partial equational Horn theories with some additional restrictions ensuring existence of finitely generated free models. Furthermore it turns out, that arbitrary partial Horn theories can be interpreted in suitably constructed essentially algebraic theories.[PV2006]
 
@@ -32,16 +31,37 @@ We will provide the definition along with an example: the definition of a semica
 An Extended Algebraic Theory (XAT) is given by
 
 1) a finite set of sorts some of which are distinguished as classifying sorts
-``
+```
 ––––––––––     –––––––––—
  Mor sort       Ob class 
-``
+```
 
-2) a finite number of named “projections” between types
-``
+2) a finite number of named “projections” between types (a distinguished class of function symbols)
+```
     f : Mor             f : Mor
 –––––––––––––––     ———————————————
  f.source : Ob       f.target : Ob
-``
+```
 
-3) a finite (or recursively generated) syntactic rules: premises are allowed to 
+3) a finite (or recursively generated) set generative rules for function symbols and universal equational laws. Premises consist of zero or more typed variables and zero or more equational constraints of a special form: left hand side must be formed by a chain of projection applications to a variable while the right hand side must be an normal (no applications of projections on the outside) term of a sort belonging to a classifying type. Each generative rule has to be accompanied by equational rules of the form “newly-defined-term.projection = normal term” for each applicable projection. Equational laws are allowed only between terms, projections on which agree for all projections.
+
+```
+  X Y Z : Ob   f g : Mor   f.source = X   f.target = Y   g.source = Y   g.target = Z
+––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+       fg : Mor     (fg).source = X     (fg).target = Z
+       
+       
+  (everything we need for fgh to exist)
+–––––––––––––––––––––––––––––––––––––––––
+             f(gh) = (fg)h
+```
+
+There are two additional restrictions:
+4) Equational laws are allowed to affect only non-classifying sorts.
+5) Rules producing a term belonging to a classifying sort are allowed to contain only variables belonging to classifying sorts.
+
+Before we proceed to the restriction 6, note that the restrictions 4 and 5 guarantee that equality of the normal terms of classifying sorts is decidable (being just the syntactical sameness). 
+The accompanying equations for the generative rules in 3 guarantee, that every closed expression is equal to a normal one
+The rule 3 only allows to use equality over classifying sorts as a premise.
+
+6) There must be a well-ordering on generative rules and their accompanying rules, ruling out circularity in the generative rules: the validity of premises for every generative rule and expressions in its accompanying rules must be checkable without relying on the accompanying rules being defined. This guarantees that the accompanying rules generate a confluent rewrite system eventually factoring any expression can be factored into projection-free part and a composition of projections, and thus, equality on classifying sorts is decidable. (? relaxing to semidecidability to include ML71 ?)
