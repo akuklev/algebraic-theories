@@ -1,7 +1,7 @@
 # Extended Algebraic Theories
 
 ## Introduction
-Algebraic theories are (finitely or recursively generated) equational Horn theories over a multi-sorted algebraic signature, i.e. signatures containing no relations or predicates except equality which is considered to be part of surrounding logic, not the theory itself. Algebraic theories are about syntax (symbols and rules for manipluating them) and equations, which justifies the name. Instances of algebraic theories include monoids, groups and rings.
+Algebraic theories are (finitely or recursively generated) equational Horn theories over multi-sorted algebraic signatures, i.e. signatures containing no relations or predicates except equality which is considered to be part of surrounding logic, not the theory itself. Algebraic theories are about syntax and equations only, which justifies the name. Instances of algebraic theories include monoids, groups and rings.
 
 The syntactic nature of algebraic theories is represented by the fact that finitely generated free algebras `T<x,..,z>` (“algebras of terms with variables `x,...,z`”) for an algebraic theory `T` can be explicitly constructed, validity of a term remains checkable, and the free algebra `T<>` (the “algebra of terms with no variables”, “the term model of the given algebraic theory”) is the initial object in the category of models for the given algebraic theory.
 
@@ -23,6 +23,12 @@ Unfortunatelly, the framework of essentially algebraic theories does not retain 
 Note that algebraic theories can well have undecidable equality. To give an example, a finitely presented monoid known as the Combinatory Logic – a single-sorted algebraic theory with one binary operation, two constants and two simple axioms – was shown to have undecidable equality as early as 1936. In EATs we're allowed to require equality as a premise for validity of a rule, so if it happens that the sort we're requiring additional equality on, turns out to have undecidable equality in the resulting theory, there is no way to know if we can compose two terms into a new one.
 
 Our goal is to provide a stratified formalism remedying this issue. It will turn out that it subsumes the formalizm of generalized algebraic theories with no equations on sorts, and is closely related to bidirectional dependent type systems.
+
+## Preliminaries
+A doctrine (also known as logical setting or “logic” in the narrow sense) is a extendable framework to formal theories and reason about them. First of all, a doctrine defines how a signature for theory has to be described, and, given a signature, how to build all well-formed sentences (both closed and with variables) in the formal language of the theory.
+
+For example in the doctrine of single-sorted first order logic, a signature is a list of operators together with their arities (non-negative integers) called the algebraic part (because algebraic structures like groups, rings or fields are described in terms of operations like addition, negation, multiplication, and constants, being operators of zero arity) and a list of relations together with their arities (positive integers) called the geometric part (because formal Eucledian geometry and similar theories are mainly described in terms of relations like parallelity of lines and similarity of triangles, and predicates being the relations of arity 1). A sentence of a first-order theory is built from atomic sentences using logical connectives (“and”, “or”, “implies”) and quantifiers. The atomic sentences are either built from relations defined in the signature applied to expressions, or
+...
 
 ## Syntactic formalism
 
@@ -65,3 +71,12 @@ The accompanying equations for the generative rules in 3 guarantee, that every c
 The rule 3 only allows to use equality over classifying sorts as a premise.
 
 6) There must be a well-ordering on generative rules and their accompanying rules, ruling out circularity in the generative rules: the validity of premises for every generative rule and expressions in its accompanying rules must be checkable without relying on the accompanying rules being defined. This guarantees that the accompanying rules generate a confluent rewrite system eventually factoring any expression can be factored into projection-free part and a composition of projections, and thus, equality on classifying sorts is decidable. (? relaxing to semidecidability to include ML71 ?)
+
+## Bidirectional example
+
+```
+       f : Mor
+––––––––––––––––––––––––––
+ lam(f) : Lam    apply(e)
+
+```
