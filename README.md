@@ -7,7 +7,7 @@ Much like algebraic theories and generalized algebraic theories without equation
 ## Presentation of the Formalism
 Please recall that a finitary algebraic theory can be identified with a finitely presented finite product category `T`. Syntactic description of an algebraic category is precisely the presentation of such a category in terms of generators and relations:
 1) It provides a number of sorts: objects of `T` will be the finite products of these sorts;
-2) It provides a number of formation rules of the form `f : S -> T`, where `S` is a finite product of sorts and `T` a single sort. Morphisms of `T` will be precisely the finite compositions of formation rules and structural morphisms inherent to a finite product category (permutation, duplication and discarding morphisms).
+2) It provides a number of formation rules of the form `f : S -> T`, where `S` is a finite product of sorts and `T` a single sort. Maps of `T` will be precisely the finite compositions of formation rules and structural maps inherent to a finite product category (permutation, duplication and discarding maps).
 3) In provides a number of equations, which will be used to identify some of the morphisms generated above.
 
 A model of an algebraic theory `T` can be identified with a functor from `T`, a homomorphsim between theories can be identified with a natural transformation between corresponding functors.
@@ -20,9 +20,9 @@ Finitary essentially algebraic theories correspond to finitely presented lex cat
 ```
 Which are essential for definitions of category-like structures.
 
-Extended algebraic theories will be identified with weak model categories as defined in [Hen19]. A weak model category is not required to have fibered products or even finite products of all of its objects. At first it is only required to have an initial and a terminal object. Weak model categories come with two distinguised classes of maps called fibrations `X ↠ Y` and cofibrations `A ↪ B` subject to a number of axioms. One of the axioms states that for fibered product of fibrant objects (the objects for which the unique map `X ↠ 1` is a fibration) exist along a fibriation, which trivially means that finite products of fibered objects exist as well.
+Extended algebraic theories will be identified with weak model categories as defined in [Hen19]. A weak model category is not required to have fibered products or even finite products of all of its objects. At first it is only required to have an initial and a terminal object. Weak model categories come with two distinguised classes of maps called fibrations `X ↠ Y` and cofibrations `A ↪ B` closed under compositions and subject to a number of further axioms. One of the axioms states that the fibered product `(x : X) ✕_Z (y : Y) {x.proj = f(y)}` exists for any object `X`, map `f` and fibration `proj` if `Y` and `Z` are fibrant objects (the objects for which the unique map `X ↠ 1` is a fibration).
 
-When describing an extended algebraic theory, we'll be listing sorts explicitly saying if they are to be fibrant, cofibrant or both. Usual formation rules will generate the class of cofibrations. We'll introduce formation rules for projections (like `f.source` and `f.target` in the above example); they will be generating the class of fibrations.
+When describing an extended algebraic theory, we'll be listing sorts explicitly saying if they are to be fibrant, cofibrant or both. Formation rules will generate the class of cofibrations. We'll introduce new kind of rules for describing projections (like `f.source` and `f.target` in the above example); they will be generating the class of fibrations.
 
 
 
