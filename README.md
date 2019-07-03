@@ -10,36 +10,33 @@ Please recall that a finitary algebraic theory can be identified with a finitely
 2) It provides a number of formation rules of the form `f : S -> T`, where `S` is a finite product of sorts and `T` a single sort. Maps of `T` will be precisely the finite compositions of formation rules and structural maps inherent to a finite product category (permutation, duplication and discarding maps).
 3) In provides a number of equations, which will be used to identify some of the morphisms generated above.
 
-A model of an algebraic theory `T` can be identified with a functor from `T`, a homomorphsim between theories can be identified with a natural transformation between corresponding functors.
+A model of an algebraic theory `T` can be identified with a product-preserving functor from `T`, a homomorphsim between theories can be identified with a natural transformation between corresponding functors.
 
 Finitary essentially algebraic theories correspond to finitely presented lex categories, i.e. categories with all finite limits. Syntactically it means that `S` in formation rules `f : S -> T` are allowed not only to be finite products of sorts, but finite fibered products, allowing for rules like
 ```
- f : Mor   g : Mor   f.target = g.source
+ f : Map   g : Map   f.target = g.source
 –––––––––––––––––––––––––––––––––––––––––
-              fg : Mor
+              fg : Map
 ```
 Which are essential for definitions of category-like structures.
 
-Extended algebraic theories will be identified with weak model categories as defined in [Hen19]. A weak model category is not required to have fibered products or even finite products of all of its objects. At first it is only required to have an initial and a terminal object. Weak model categories come with two distinguised classes of maps called fibrations `X ↠ Y` and cofibrations `A ↪ B` closed under compositions and subject to a number of further axioms. One of the axioms states that the fibered product `(x : X) ✕_Z (y : Y) {x.proj = f(y)}` exists for any object `X`, map `f` and fibration `proj` if `Y` and `Z` are fibrant objects (the objects for which the unique map `X ↠ 1` is a fibration).
+This approach has two drawbacks:
+1) One requires existance of all fibered products while only few are required. Solution: consider categories with distinguished class of objects (“classifying sorts”) and maps (“projections“) and require only fibered products of the form `(x : X) ✕_Z (y : Y) {x.proj = f(y)}` where `proj` is a projection and `Z` is a classifying sort.
+2) The identification of models and limit-preserving functors is not accurate: one actually only needs the functors to be defined on the full subcategory spanned by “substantial sorts” (the sort of maps in case of categories), while all other sorts (the sort of objects in case of categories) are there only to carry elusive compatibility structure of “substatial” objects and should be taken into account only to the extent they are indispensible. The solution is provided by the doctrine of weak model categories and Quillen pairs between them.
 
-When describing an extended algebraic theory, we'll be listing sorts explicitly saying if they are to be fibrant, cofibrant or both. Formation rules will generate the class of cofibrations. We'll introduce new kind of rules for describing projections (like `f.source` and `f.target` in the above example); they will be generating the class of fibrations.
+Extended algebraic theories will be identified to (a restricted form of) weak model categories as defined in [Hen19]. Weak model categories come with two distinguised classes of maps called fibrations `X ↠ Y` and cofibrations `A ↪ B` closed under compositions and subject to a number of further axioms. They are required to have initial and terminal objects with unique map between them being both fibration and cofibration. The objects for which the unique map `X ↠ 1` is a fibration are called fibrant, respectively the objects for which the unique map `0 ↪ X` is a cofibration are called cofibrant. In the framework of extended algebraic theories, the class of cofibrant objects is intended to be spanned by “substantial sorts”, the class of fibrant objects by “classifying sorts”, fibrations by projections, cofibrations by constructions (see below). Besides projections and constructions there are still the “normal” formation rules inherited from plain old algebraic theories. 
 
+A syntactical description of an extended algebraic theory goes as follows:
 
-
-
-We will provide the definition along with an example: the definition of a semicategory.
-
-An Extended Algebraic Theory (XAT) is given by
-
-1) a finite set of sorts some of which are distinguished as classifying sorts
+1) a finite set of sorts marked as classifying, substantial or both
 ```
-––––––––––     –––––––––—
- Mor sort       Ob class 
+––––––––––—     –––––––––—
+ Map subst       Ob class 
 ```
 
-2) a finite number of named “projections” between types (a distinguished class of function symbols)
+2) a finite number of named “projections” into classifying types
 ```
-    f : Mor             f : Mor
+    f : Map             f : Map
 –––––––––––––––     ———————————————
  f.source : Ob       f.target : Ob
 ```
@@ -47,14 +44,18 @@ An Extended Algebraic Theory (XAT) is given by
 3) a finite (or recursively generated) set generative rules for function symbols and universal equational laws. Premises consist of zero or more typed variables and zero or more equational constraints of a special form: left hand side must be formed by a chain of projection applications to a variable while the right hand side must be an normal (no applications of projections on the outside) term of a sort belonging to a classifying type. Each generative rule has to be accompanied by equational rules of the form “newly-defined-term.projection = normal term” for each applicable projection. Equational laws are allowed only between terms, projections on which agree for all projections.
 
 ```
-  X Y Z : Ob   f g : Mor   f.source = X   f.target = Y   g.source = Y   g.target = Z
+  X Y Z : Ob   f g : Map   f.source = X   f.target = Y   g.source = Y   g.target = Z
 ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-       fg : Mor     (fg).source = X     (fg).target = Z
+       fg : Map     (fg).source = X     (fg).target = Z
        
        
-  (everything we need for fgh to exist)
-–––––––––––––––––––––––––––––––––––––––––
-             f(gh) = (fg)h
+  (everything we need for fgh to exist)                                O : Ob
+–––––––––––––––––––––––––––––––––––––––––        –––––––––––––——————————————————————————————————————
+             f(gh) = (fg)h                        id_O : Map  (id_O).source = O   (id_0).target = O
+
+  (everything we need for f id_O to exist)          (everything we need for id_O f to exist)
+—————————————————————————————————————————————      ——————————————————————————————————————————
+               f id_O = f                                          id_O f = f
 ```
 
 There are two additional restrictions:
@@ -65,14 +66,17 @@ Before we proceed to the restriction 6, note that the restrictions 4 and 5 guara
 The accompanying equations for the generative rules in 3 guarantee, that every closed expression is equal to a normal one
 The rule 3 only allows to use equality over classifying sorts as a premise.
 
-6) There must be a well-ordering on generative rules and their accompanying rules, ruling out circularity in the generative rules: the validity of premises for every generative rule and expressions in its accompanying rules must be checkable without relying on the accompanying rules being defined. This guarantees that the accompanying rules generate a confluent rewrite system eventually factoring any expression can be factored into projection-free part and a composition of projections, and thus, equality on classifying sorts is decidable. (? relaxing to semidecidability to include ML71 ?)
+6) There must be a well-ordering on generative rules and their accompanying rules, ruling out circularity in the generative rules: the validity of premises for every generative rule and expressions in its accompanying rules must be checkable without relying on the accompanying rules being defined. This guarantees that the accompanying rules generate a confluent rewrite system eventually factoring any expression can be factored into projection-free part and a composition of projections, and thus, equality on classifying sorts is decidable.
+
 
 ## Bidirectional example
 
 ```
-       f : Mor
+       f : Map
 ––––––––––––––––––––––––––
  lam(f) : Lam    apply(e)
+
+
 
 ```
 
