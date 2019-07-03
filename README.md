@@ -70,6 +70,43 @@ The rule 3 only allows to use equality over classifying sorts as a premise.
 
 
 ## Bidirectional example
+Prod categories
+
+```
+   A B : Ob
+——————————————
+  A × B : Ob
+  
+                   
+————————————————————
+  Prod substantial 
+  
+
+  Г A B : Ob    f g : Map    f.source = Г   g.source = Г   f.target = A    g.target = B
+—————————————————————————————————————————————————————————————————————————————————————————
+  <f, g> : Map   <f, g>.source = Г    <f, g>.target = (A × B)
+  
+
+ p : Prod
+————————————————
+  p.eval : Map
+  
+  
+ Г A B : Ob    p : Map    p.source = Г   p.target = A × B
+——————————————————————————————————————————————————————————
+          p.eta : Prod
+  
+```
+
+
+Lex categories:
+
+```
+ A B Z : Ob   f g : Map   f.source = A   g.source = B   f.target = g.target = Z
+————————————————————————————————————————————————————————————————————————————————
+    
+```
+
 
 ```
        f : Map
