@@ -66,6 +66,18 @@ There are two additional restrictions:
 
 These are to ensure decidability of equality on classifying sorts in the syntactic model, which is necessary for applicability of generational rules (and equational laws) to be decidable. 
 
+Let's move on to an example making substantial use of the whole machinery: the theory of finitely complete categories. First we'll extend the definition of category to include finite products and then we'll modify the definition to contain products in all slices (that is fibered products), than we'll add the initial object finitely complete categories. (Reformulate: we'll get well known categories with families. Corollary: we can interpret all generalized algebraic theories without sort equations.)
+
+```
+                   f : Fam
+——————————      —————————————
+ Fam type        f.base : Ob
+
+
+```
+
+
+
 
 ## Bidirectional example
 
