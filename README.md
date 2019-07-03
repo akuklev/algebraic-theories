@@ -1,6 +1,6 @@
 # Extended Algebraic Theories
 
-Making use of recently developed notion of weak model categories [Hen19], we propose a refinement for the notion of essentially algebraic theories (EATs) [PV07] that leads to more sophisticated functorial semantics yielding more relaxed notion of homomorphism of algebras. Similar to essentlially algebraic theories, our proposal encompases categories, yet with functors and equivalences as homomorphisms and isomorphisms respectively. For theories `T` admitting unbiased descriptions (ones where for every composite tree there is exactly one equation, identifying the composite tree with an atomic one) we derive a notion of generic enrichment structure `G(T)` — for categories being virtual double categories – and `V`-enriched `T`-algebras, `V` being a fixed `G(T)`-algebra.
+Making use of recently developed notion of weak model categories [Hen19], we propose a refinement for the notion of essentially algebraic theories (EATs) [PV07] that leads to more sophisticated functorial semantics yielding more relaxed notion of homomorphism of algebras. Similar to essentlially algebraic theories, our proposal encompases categories, yet with functors and equivalences as homomorphisms and isomorphisms respectively. For theories `T` admitting unbiased descriptions (ones where for every posible composite term there is exactly one equation law, identifying the composite term with an atomic one) we derive a notion of generic enrichment structure `G(T)` — for categories being virtual double categories – and `V`-enriched `T`-algebras, `V` being a fixed `G(T)`-algebra.
 
 Much like algebraic theories and generalized algebraic theories without equations on sorts [Car81], yet in contrast to EATs, our proposal keeps applicability of formation rules decidable regardless of word problem decidablity for the respective theory, thus we argue it to be not only an essentially, but a truly algebraic formalism. Thus we pursue the approach of [Is17] regarding type theories as algebraic presentations of structured categories and category-like structures.
 
@@ -22,26 +22,28 @@ Which are essential for definitions of category-like structures.
 
 This approach has two drawbacks:
 1) One requires existance of all fibered products while only few are required. Solution: consider categories with distinguished class of objects (“classifying sorts”) and maps (“projections“) and require only fibered products of the form `(x : X) ✕_Z (y : Y) {x.proj = f(y)}` where `proj` is a projection and `Z` is a classifying sort.
-2) The identification of models and limit-preserving functors is not accurate: one actually only needs the functors to be defined on the full subcategory spanned by “substantial sorts” (the sort of maps in case of categories), while all other sorts (the sort of objects in case of categories) are there only to carry elusive compatibility structure of “substatial” objects and should be taken into account only to the extent they are indispensible. The solution is provided by the doctrine of weak model categories and Quillen pairs between them.
+2) The identification of models and limit-preserving functors is not accurate: one actually only needs the functors to be defined on the full subcategory spanned by “esssential sorts” (the sort of maps in case of categories), while all other sorts (the sort of objects in case of categories) are there only to carry elusive compatibility structure of “substatial” objects and should be taken into account only to the extent they are indispensible. The solution is provided by the doctrine of weak model categories and Quillen pairs between them.
 
-Extended algebraic theories will be identified to (a restricted form of) weak model categories as defined in [Hen19]. Weak model categories come with two distinguised classes of maps called fibrations `X ↠ Y` and cofibrations `A ↪ B` closed under compositions and subject to a number of further axioms. They are required to have initial and terminal objects with unique map between them being both fibration and cofibration. The objects for which the unique map `X ↠ 1` is a fibration are called fibrant, respectively the objects for which the unique map `0 ↪ X` is a cofibration are called cofibrant. In the framework of extended algebraic theories, the class of cofibrant objects is intended to be spanned by “substantial sorts”, the class of fibrant objects by “classifying sorts”, fibrations by projections, cofibrations by constructions (see below). Besides projections and constructions there are still the “normal” formation rules inherited from plain old algebraic theories. 
+Extended algebraic theories will be identified to (a restricted form of) weak model categories as defined in [Hen19]. Weak model categories come with two distinguised classes of maps called fibrations `X ↠ Y` and cofibrations `A ↪ B` closed under compositions and subject to a number of further axioms. They are required to have initial and terminal objects with unique map between them being both fibration and cofibration. The objects for which the unique map `X ↠ 1` is a fibration are called fibrant, respectively the objects for which the unique map `0 ↪ X` is a cofibration are called cofibrant. In the framework of extended algebraic theories, the class of cofibrant objects is intended to be spanned by “substantial sorts”, the class of fibrant objects by “classifying sorts”, fibrations by projections, cofibrations by conversions (see below). Besides projections and constructions there are still the usual formation rules inherited from plain old algebraic theories. 
 
 A syntactical description of an extended algebraic theory goes as follows:
 
 1) a finite set of sorts marked as classifying, substantial or both
 ```
-––––––––––—     ––––––––
- Map cofib       Ob fib 
+––––––––—     ––––––––
+ Map ess       Ob cls 
 ```
 
-2) a finite number of named “projections” into classifying types
+2) a finite number of named projections and conversions (conversions are not required for the definition of plain categories)
 ```
     f : Map             f : Map
 –––––––––––––––     ———————————————
  f.source : Ob       f.target : Ob
 ```
 
-3) a finite (or recursively generated) set generative rules for function symbols and universal equational laws. Premises consist of zero or more typed variables and zero or more equational constraints of a special form: left hand side must be formed by a chain of projection applications to a variable while the right hand side must be an normal (no applications of projections on the outside) term of a sort belonging to a classifying type. Each generative rule has to be accompanied by equational rules of the form “newly-defined-term.projection = normal term” for each applicable projection. Equational laws are allowed only between terms, projections on which agree for all projections.
+3) a finite (or recursively generated) set generative rules for function symbols and universal equational laws. Premises consist of zero or more typed variables `x, y,...,z` and zero or more equational constraints of a special form: left hand side must be formed by a projection-free expression followed by a chain of projection applications ultimately landing in classifying sort, while right hand side is any expression possibly containing variables `x, y,...,z`. Each generative rule has to be accompanied by equational rules of the form `newly-defined-term.proj = term` for each applicable projection `proj`. Furthermore for every conversion `conv` into a type one must provide a term implementing the generative rule. These accompanying rules are called β-reductions and η-expansions respectively and should generate a confluent rewrite system eventually rewriting any expression of a classifying sort a projection-free form. To rule out circularity (to prove normalization we need the applicability of rules to be checkable, which relies on normalization), we need to provide a well-ordering on generative rules and their accomanying rules.
+
+Equational laws required to respect projections, i.e. they are allowed only between terms, projections on which agree for all projections.
 
 ```
   X Y Z : Ob   f g : Map   f.source = X   f.target = Y   g.source = Y   g.target = Z
@@ -59,14 +61,10 @@ A syntactical description of an extended algebraic theory goes as follows:
 ```
 
 There are two additional restrictions:
-4) Equational laws are allowed to affect only non-classifying sorts.
-5) Rules producing a term belonging to a classifying sort are allowed to contain only variables belonging to classifying sorts.
+– Equational laws are allowed to affect only non-classifying sorts.
+– Rules producing a term belonging to a classifying sort are allowed to contain only variables belonging to classifying sorts.
 
-Before we proceed to the restriction 6, note that the restrictions 4 and 5 guarantee that equality of the normal terms of classifying sorts is decidable (being just the syntactical sameness). 
-The accompanying equations for the generative rules in 3 guarantee, that every closed expression is equal to a normal one
-The rule 3 only allows to use equality over classifying sorts as a premise.
-
-6) There must be a well-ordering on generative rules and their accompanying rules, ruling out circularity in the generative rules: the validity of premises for every generative rule and expressions in its accompanying rules must be checkable without relying on the accompanying rules being defined. This guarantees that the accompanying rules generate a confluent rewrite system eventually factoring any expression can be factored into projection-free part and a composition of projections, and thus, equality on classifying sorts is decidable.
+These are to ensure decidability of equality on classifying sorts in the syntactic model, which is necessary for applicability of generational rules (and equational laws) to be decidable. 
 
 
 ## Bidirectional example
