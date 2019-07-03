@@ -30,8 +30,8 @@ A syntactical description of an extended algebraic theory goes as follows:
 
 1) a finite set of sorts marked as classifying, substantial or both
 ```
-––––––––––—     –––––––––—
- Map subst       Ob class 
+––––––––––—     ––––––––
+ Map cofib       Ob fib 
 ```
 
 2) a finite number of named “projections” into classifying types
@@ -70,32 +70,22 @@ The rule 3 only allows to use equality over classifying sorts as a premise.
 
 
 ## Bidirectional example
-Prod categories
+
+FinProd categories
 
 ```
-   A B : Ob
-——————————————
-  A × B : Ob
-  
-                   
-————————————————————
-  Prod substantial 
-  
+                     p : Pair          p : Pair
+————————————      —————————————      —————————————
+Pair cofib        p.fst : Map        p.snd : Map
 
-  Г A B : Ob    f g : Map    f.source = Г   g.source = Г   f.target = A    g.target = B
-—————————————————————————————————————————————————————————————————————————————————————————
-  <f, g> : Map   <f, g>.source = Г    <f, g>.target = (A × B)
-  
 
- p : Prod
-————————————————
-  p.eval : Map
-  
-  
- Г A B : Ob    p : Map    p.source = Г   p.target = A × B
-——————————————————————————————————————————————————————————
-          p.eta : Prod
-  
+ Г A B : Ob    f g : Map    f.source = Г   g.source = Г   f.target = A    g.target = B
+————————————————————————————————————————————————————————————————————————————————————————
+                <f, g> : Pair   <f, g>.fst = f    <f, g>.snd = g
+
+  A B : Ob         Г A B : Ob    p : Map    p.source = Г   p.target = A × B
+————————————      ——————————————————————————————————————————————————————————
+ A × B : Ob                           p^eta : Pair
 ```
 
 
