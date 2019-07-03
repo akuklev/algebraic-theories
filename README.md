@@ -76,7 +76,7 @@ FinProd categories
 ```
                      p : Pair          p : Pair
 ————————————      —————————————      —————————————
-Pair cofib        p.fst : Map        p.snd : Map
+ Pair cofib        p.fst : Map        p.snd : Map
 
 
  Г A B : Ob    f g : Map    f.source = Г   g.source = Г   f.target = A    g.target = B
@@ -85,7 +85,17 @@ Pair cofib        p.fst : Map        p.snd : Map
 
   A B : Ob         Г A B : Ob    p : Map    p.source = Г   p.target = A × B
 ————————————      ——————————————————————————————————————————————————————————
- A × B : Ob                           p^eta : Pair
+ A × B : Ob                           p^eta : Pair     p^eta = <p1 p, p2 p>
+ 
+                       A B : Ob
+—————————————————————————————————————————————————————————————————
+  p1[A,B] : Mor   p1[A,B].source = (A × B)    p1[A,B].targer = A
+
+
+                       A B : Ob
+—————————————————————————————————————————————————————————————————
+  p1[A,B] : Mor   p1[A,B].source = (A × B)    p1[A,B].targer = B
+
 ```
 
 
