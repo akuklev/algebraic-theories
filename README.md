@@ -66,16 +66,74 @@ There are two additional restrictions:
 
 These are to ensure decidability of equality on classifying sorts in the syntactic model, which is necessary for applicability of generational rules (and equational laws) to be decidable. 
 
-Let's move on to an example making substantial use of the whole machinery: the theory of finitely complete categories. First we'll extend the definition of category to include finite products and then we'll modify the definition to contain products in all slices (that is fibered products), than we'll add the initial object finitely complete categories. (Reformulate: we'll get well known categories with families. Corollary: we can interpret all generalized algebraic theories without sort equations.)
+Let's move on to an example making substantial use of the whole machinery: the theory of finitely complete categories. First we'll extend the definition of category to include finite products and then we'll modify the definition to contain products in all slices (that is fibered products), than we'll add the initial object finitely complete categories. (Reformulate: we'll recover the notion of categories with families.)
 
 ```
-                   f : Fam
-——————————      —————————————
- Fam type        f.base : Ob
+———————————      ————————
+ Unit type        1 : Ob
+
+ f : Mor     f.target = 1
+——————————————————————————
+        conv : Unit
+```
+
+
+
+```
+  X Y : Ob  
+————————————
+ X × Y : Ob        
+
+                  X Y : Ob
+——————————————————————————————————————————————————
+ ᴨ₁ : Mor    ᴨ₁.source = (X × Y)    ᴨ₁.target = X
+
+                  X Y : Ob
+——————————————————————————————————————————————————
+ ᴨ₂ : Mor    ᴨ₂.source = (X × Y)    ᴨ₂.target = Y
+
+                  p : Pair         p : Pair
+———————————     —————————————    —————————————
+ Pair type       p.fst : Mor      p.snd : Mor
+
+
+   p : Pair
+——————————————
+ p^conv : Mor
+
+ Г : Ob    f : Mor    g : Mor    f.source = Г    g.source = Г
+——————————————————————————————————————————————————————————————
+     <f, g> : Pair    <f,g>.fst = f    <f,g>.snd = g
+ 
+ 
+ X Y : Ob      f : Mor     f.target = X × Y
+––––––––––––————————————————————————————————
+         f = <ᴨ₁ f, ᴨ₂ f>^conv
+         
+```
+
+
+For either:
+Negatively:
+
+
+p.match(inl, inr) : Copair
+
+  s : SumElim                   s : SumElim
+———————————————      ——————————————————————————————————————————
+ s.target : Ob         s.eval : Mor   s.eval.target = s.target
+ 
+
+
+```
+                   f : Fam         f : Fam
+——————————      —————————————     —————————
+ Fam type        f.base : Ob       
 
 
 ```
 
+Key problem: Direct map from Maps to Objects (constructor of fibered product depends on the respective two maps) is prohibited as functions into classifying sorts must be from classifying sorts only.
 
 
 
