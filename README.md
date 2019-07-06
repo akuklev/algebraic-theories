@@ -108,26 +108,31 @@ Let's move on to an example making substantial use of the whole machinery: multi
 
 To fill the gap we need to join two contexts: `tail.source` and `head.source`. How can we do it? Well, the thing is that can encode computations by β-reductions in our rules.
 
+
 ```
-                     j : Join
-–––––————————    ————————————————
- Join : comp      j.reduce : Ctx
+               j : Join
+——————————    ——————————————
+ Join fix      j.fst : Ctx
 
-     a b : Ctx
-———————————————————
- join(a, b) : Join
-
+  l : ???
+—————————————
+ l^c : Join
  
-     c : Ctx
- ———————————————
-  c^conv : Join
-
+      a b : Ctx
+ ——————————————————————————————
+  join(a, b) : Join    fst = a
  
-join(nil, b).reduce = b
-join(tail ; head, b).reduce = join(tail, b).reduce ; head  
+ 
+   j : Join   j.fst = nil
+——————————————————————————
+   j = join(nil, j.snd)^c
 
 
-Appl(Lam(f), g) = fg
+ j : Join   head : Ob    tail : Ctx     j.fst = (tail ; head)
+——————————————————————————————————————————————————————————————
+   j = join(nil, join(tail, j.snd)^c ; head)
+
+Usage: Join(a, b)^c.snd
 ```
 
 ##
@@ -216,7 +221,6 @@ Let's move on to an example making substantial use of the whole machinery: the t
          f = <ᴨ₁ f, ᴨ₂ f>^conv
          
 ```
-
 
 For either:
 Negatively:
