@@ -20,7 +20,7 @@ Objects belonging to `C^↪` are called cofibrant and can be equivalently charac
 In a category with both inclusions and projections, an object will be called bifibrant if it is both fibrant
 and cofibrant.
 
-Given two maps `f : A -> B` and `g : X -> Y` in a category `C`, we write `f ⋔ g` if for any two given maps `a : A -> X` and `b : B -> Y` there is a (chosen) map `w : B -> Y` so that `fw = a` and `wg = b`. In a category with both inclusions and projections, a projection `p` is called trivial if `i ⋔ p` for all inclusions `i`. Dually, an inclusion is called trivial if `i ⋔ p` for all projections `p`. (TODO: Explain meaning.)
+Given two maps `f : A -> B` and `g : X -> Y` in a category `C`, we write `f ⋔ g` if for any two given maps `a : A -> X` and `b : B -> Y` there is a (not necessarily unique) map `w : B -> Y` so that `fw = a` and `wg = b`. In a category with both inclusions and projections, a projection `p` is called trivial if `i ⋔ p` for all inclusions `i`. Dually, an inclusion is called trivial if `i ⋔ p` for all projections `p`. (TODO: Explain meaning.)
 
 Weak model category is a category `C` with inclusions and projections satisfying the following conditions:
 – Any map from a cofibrant object to a fibrant object can be factored both as an inclusion followed by a trivial projection and as a trivial inclusion followed by a projection.
