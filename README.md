@@ -11,11 +11,11 @@ A subcategory `D` of `C` is replete if for any object `x` in `D` and any isomorp
 
 A category `C` with projections is a category with a terminal object `1` and a distinguished replete subcategory `C^↠` of “projections” (or “fibrations”, denoted by `X ↠ Y`) containing `1` with the following property:
 Given objects `X`, `Y` and `B` from `C^↠`, a projection `p : X -> B` and a map `f : Y -> B`, there is a fibered product `X ×₍p = f₎ Y`, and the canonical projections `fst : X ×₍p = f₎ Y ↠ X` and `snd : X ×₍p = f₎ Y ↠ Y` belong to `C^↠`.
-Objects belonging to `C^↠` are called fibrant and can be equivalently characterized by the fact that the unique map `X ↠ 1` is a projection.
+Objects belonging to `C^↠` are called fibrant and can be equivalently characterized by the property that the unique map `X ↠ 1` is a projection.
 
 Dually, a category `C` with inclusions is a category with an initial object `0` and a distinguised replete subcategory `C^↪` of “inclusions” (or “cofibrations”, denoted by `A ↪ B`) containing `0` with the following property:
 Given objects `X`, `Y` and `B` from `C^↪`, an inclusion `i : B ↪ X` and a map `f : B -> Y`, there is a pushout `X ⊔₍i ⨝ f₎ Y` and the canonical inclusions `inl: X ↪ X ⊔₍i ⨝ f₎ Y` and `inr: Y ↪ X ⊔₍i ⨝ f₎ Y` belong to `C^↪`.
-Objects belonging to `C^↪` are called cofibrant and can be equivalently characterized by the fact that the unique map `0 ↪ X` is an inclusion.
+Objects belonging to `C^↪` are called cofibrant and can be equivalently characterized by the property that the unique map `0 ↪ X` is an inclusion.
 
 In a category with both inclusions and projections, an object will be called bifibrant if it is both fibrant
 and cofibrant.
