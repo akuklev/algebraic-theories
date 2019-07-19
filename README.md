@@ -4,6 +4,24 @@ Making use of recently developed notion of weak model categories [Hen19], we pro
 
 Much like algebraic theories and generalized algebraic theories without equations on sorts [Car81], yet in contrast to EATs, our proposal keeps applicability of formation rules decidable regardless of word problem decidablity for the respective theory, thus we argue it to be not only an essentially, but a truly algebraic formalism. Thus we pursue the approach of [Is17] regarding type theories as algebraic presentations of structured categories and category-like structures.
 
+## Preliminaries
+
+### Weak model categories
+
+Weak model category is a category `C` with an initial object `0` and a terminal object `1`, endowed with two classes of maps called inclusions (or “cofibrations”) denoted by `A ↪ B` and projections (or “fibrations”) denoted by `X ↠ Y` satisfying axioms listed below. One says that an object `X` is cofibrant if the unique map `0 ↪ X` is a cofibration. Dually, one says that an object `X` is fibrant if the unique map `X ↠ 1` is a fibration. The full subcategory of cofibrant objects is denoted `C^cof`, the full subcategory of fibrant objects is denoted `C^fib`. An object will be called bifibrant if it is both fibrant
+and cofibrant. The full subcategory of bifibrant object is denoted `C^bf`. The full subcategory of `C` of objects that are either fibrant or cofibrant will be denoted by `C^c∪f`.
+
+The unique map `1 -> 1` is required to be a fibration (thus `1` to be a fibrant object) and the unique map `0 -> 0` to be a cofibration (thus `0` to be a cofibrant object), domains and codomains of (co)fibrations are required to be (co)fibrant and both classes of maps to be closed under composition and contain isomorphisms between (co)fibrant objects, thus cofibrations form a wide subcategory of `C^cof` and fibrations a wide subcategory of `C^fib` respectively.
+
+Pullbacks along fibrations and pushouts along cofibrations are required to exist and be fibrations/cofibrations respectively. (TODO: Draw diagrams.)
+
+Given two maps `f : A -> B` and `g : X -> Y` in a category `C`, we write `f ⋔ g` if for any two given maps `a : A -> X` and `b : B -> Y` there is a (chosen) map `w : B -> Y` so that `fw = a` and `wg = b`. A projection `p` is called trivial if `i ⋔ p` for all inclusions `i`. Dually, an inclusion is called trivial if `i ⋔ p` for all projections `p`. (TODO: Explain meaning.)
+
+Weak model category has to satisfy the following:
+– Any map from a cofibrant object to a fibrant object can be factored both as an inclusion followed by a trivial projection and as a trivial inclusion followed by a projection.
+— For any bifibrant object `A` and any factorization `Id_A : A ↪ B ↠̃ A` of the identity of `A` as an inclusion followed by a trivial projection, the inclusion is trivial as well.
+
+
 ## Exposition of the Formalism
 Please recall that a finitary algebraic theory can be identified with a finitely presented finite product category `T`. Syntactic description of an algebraic category is precisely the presentation of such a category in terms of generators and relations:
 1) It provides a number of sorts: objects of `T` will be the finite products of these sorts;
