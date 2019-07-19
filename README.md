@@ -7,17 +7,22 @@ Much like algebraic theories and generalized algebraic theories without equation
 ## Preliminaries
 
 ### Weak model categories
+A subcategory `D` of `C` is replete if for any object `x` in `D` and any isomorphism `f : x ≅ y` in `C`, both `y` and `f` are also in `D`.
 
-Weak model category is a category `C` with an initial object `0` and a terminal object `1`, endowed with two classes of maps called inclusions (or “cofibrations”) denoted by `A ↪ B` and projections (or “fibrations”) denoted by `X ↠ Y` satisfying axioms listed below. One says that an object `X` is cofibrant if the unique map `0 ↪ X` is a cofibration. Dually, one says that an object `X` is fibrant if the unique map `X ↠ 1` is a fibration. The full subcategory of cofibrant objects is denoted `C^cof`, the full subcategory of fibrant objects is denoted `C^fib`. An object will be called bifibrant if it is both fibrant
-and cofibrant. The full subcategory of bifibrant object is denoted `C^bf`. The full subcategory of `C` of objects that are either fibrant or cofibrant will be denoted by `C^c∪f`.
+A category `C` with projections is a category with a terminal object `1` and a distinguished replete subcategory `C^↠` of “projections” (or “fibrations”, denoted by `X ↠ Y`) containing `1` with the following property:
+Given objects `X`, `Y` and `B` from `C^↠`, a projection `p : X -> B` and a map `f : Y -> B`, there is a fibered product `X ×₍p = f₎ Y`, and the canonical projections `fst : X ×₍p = f₎ Y ↠ X` and `snd : X ×₍p = f₎ Y ↠ Y` belong to `C^↠`.
+Objects belonging to `C^↠` are called fibrant and can be equivalently characterized by the fact that the unique map `X ↠ 1` is a projection.
 
-The unique map `1 -> 1` is required to be a fibration (thus `1` to be a fibrant object) and the unique map `0 -> 0` to be a cofibration (thus `0` to be a cofibrant object), domains and codomains of (co)fibrations are required to be (co)fibrant and both classes of maps to be closed under composition and contain isomorphisms between (co)fibrant objects, thus cofibrations form a wide subcategory of `C^cof` and fibrations a wide subcategory of `C^fib` respectively.
+Dually, a category `C` with inclusions is a category with an initial object `0` and a distinguised replete subcategory `C^↪` of “inclusions” (or “cofibrations”, denoted by `A ↪ B`) containing `0` with the following property:
+Given objects `X`, `Y` and `B` from `C^↪`, an inclusion `i : B ↪ X` and a map `f : B -> Y`, there is a pushout `X ⊔₍i ⨝ f₎ Y` and the canonical inclusions `inl: X ↪ X ⊔₍i ⨝ f₎ Y` and `inr: Y ↪ X ⊔₍i ⨝ f₎ Y` belong to `C^↪`.
+Objects belonging to `C^↪` are called cofibrant and can be equivalently characterized by the fact that the unique map `0 ↪ X` is an inclusion.
 
-Pullbacks along fibrations and pushouts along cofibrations are required to exist and be fibrations/cofibrations respectively. (TODO: Draw diagrams.)
+In a category with both inclusions and projections, an object will be called bifibrant if it is both fibrant
+and cofibrant.
 
-Given two maps `f : A -> B` and `g : X -> Y` in a category `C`, we write `f ⋔ g` if for any two given maps `a : A -> X` and `b : B -> Y` there is a (chosen) map `w : B -> Y` so that `fw = a` and `wg = b`. A projection `p` is called trivial if `i ⋔ p` for all inclusions `i`. Dually, an inclusion is called trivial if `i ⋔ p` for all projections `p`. (TODO: Explain meaning.)
+Given two maps `f : A -> B` and `g : X -> Y` in a category `C`, we write `f ⋔ g` if for any two given maps `a : A -> X` and `b : B -> Y` there is a (chosen) map `w : B -> Y` so that `fw = a` and `wg = b`. In a category with both inclusions and projections, a projection `p` is called trivial if `i ⋔ p` for all inclusions `i`. Dually, an inclusion is called trivial if `i ⋔ p` for all projections `p`. (TODO: Explain meaning.)
 
-Weak model category has to satisfy the following:
+Weak model category is a category `C` with inclusions and projections satisfying the following conditions:
 – Any map from a cofibrant object to a fibrant object can be factored both as an inclusion followed by a trivial projection and as a trivial inclusion followed by a projection.
 — For any bifibrant object `A` and any factorization `Id_A : A ↪ B ↠̃ A` of the identity of `A` as an inclusion followed by a trivial projection, the inclusion is trivial as well.
 
