@@ -11,11 +11,11 @@ A subcategory `D` of `C` is replete if for any object `x` in `D` and any isomorp
 
 A category `C` with projections is a category with a distinguished replete subcategory `C^↠` of “projections” (or “fibrations”, denoted by `X ↠ Y`) and “fibrant” objects with the following properties:
 - Given objects `X`, `Y` and `B` from `C^↠`, a projection `p : X -> B` and a map `f : Y -> B`, there is a fibered product `X ×₍p = f₎ Y`, and the canonical projections `fst : X ×₍p = f₎ Y ↠ X` and `snd : X ×₍p = f₎ Y ↠ Y` belong to `C^↠`.
-- If `C` has a terminal object `1`, it belongs to `C^↠`. Note that in this case `C` also contains all finite products of fibrant objects and `C^↠` has all finite limits. In presence of a terminal objects, fibrant objects can be equivalently characterized by the property that the unique map `X ↠ 1` is a projection.
+- If `C` has a terminal object `1`, it has to belong to `C^↠`. If `C^↠`, `C` has to have a terminal object. In this case `C` also contains all finite products of fibrant objects and `C^↠` has all finite limits. Fibrant objects can be equivalently characterized by the property that the unique map `X ↠ 1` is a projection.
 
 Dually, a category `C` with inclusions is a category with  a distinguised replete subcategory `C^↪` of “inclusions” (or “cofibrations”, denoted by `A ↪ B`) and “cofibrant objects” with the following properties:
 - Given objects `X`, `Y` and `B` from `C^↪`, an inclusion `i : B ↪ X` and a map `f : B -> Y`, there is a pushout `X ⊔₍i ⨝ f₎ Y` and the canonical inclusions `inl: X ↪ X ⊔₍i ⨝ f₎ Y` and `inr: Y ↪ X ⊔₍i ⨝ f₎ Y` belong to `C^↪`.
-– If `C` has an initial object `0`, it belongs to `C^↪`. Note that in this case `C` also contains all finite coproducts of cofibrant objects and `C^↪` has all finite colimits. In presence of initial object, cofibrant objects can be equivalently characterized by the property that the unique map `0 ↪ X` is an inclusion.
+– If `C` has an initial object `0`, it has to belong to `C^↪`. If `C^↪` is nonempty, `C` has to have an initial object. Note that in this case `C` also contains all finite coproducts of cofibrant objects and `C^↪` has all finite colimits. Cofibrant objects can be equivalently characterized by the property that the unique map `0 ↪ X` is an inclusion.
 
 In a category with both inclusions and projections, an object will be called bifibrant if it is both fibrant
 and cofibrant. The full subcategories spanned by fibrant, cofibrant and bifibrant objects will be denoted by `C^fib`, `C^cofib` and `C^bf` respectively.
@@ -28,11 +28,12 @@ Weak model category is a category `C` with inclusions and projections, having a 
 - Any map from a cofibrant object to a fibrant object can be factored both as an inclusion followed by a trivial projection and as a trivial inclusion followed by a projection.
 - For any bifibrant object `A` and any factorization `Id_A : A ↪ B ↠̃ A` of the identity of `A` as an inclusion followed by a trivial projection, the inclusion is trivial as well.
 
-Model “functor” between two weak model categories `C` and `D` consists of a pair of functors `f : C^fib -> D` sending fibriations to fibrations and `f' : D^cofib -> D` seinding cofibrations to cofibrations, adjoint on their common ground, i.e. 
-`Hom(F(X), Y) ≃ Hom(X, G(Y ))`
+Model “functor” between two weak model categories `C` and `D` consists of a pair of functors `f : C^fib -> D` sending projections to projections and `f' : D^cofib -> D` seinding inclusions to inclusions, adjoint on their common ground, i.e. 
+`Hom(F(X), Y) ≃ Hom(X, G(Y))`
 functorial in `X ∈ C^cof` and `Y ∈ D^fib`.
 
-We adopt a slight modification of definition in [Hen19] allowing for weak model categories without initial objects, to obtain the following: a finite-product category `C` can be supplied with trivial weak model structure: let the subcategory of inclusions be empty, and the subcategory of projections be the wide subcategory of `C` with maps composed out of isomorphisms and canonic projections of direct products. Now consider the model functor from such a category into a model category `D`. It consists of a functor `f` from `C` to `D` and a functor `f' : D^cofib -> C`
+We adopt a slight modification of definition in [Hen19] allowing for weak model categories without initial or terminal objects (thus with no inclusions or projections respectively), to obtain the following: a finite-product category `C` can be supplied with trivial weak model structure: let the subcategory of inclusions be empty, and the subcategory of projections be the wide subcategory of `C` with maps composed out of isomorphisms and canonic projections of direct products (always nonempty since a finite-product category always has a terminal object). Now consider the model functor from such a category into a model category `D`. It consists of a functor `f` from `C` to `D` mapping projections into projections (this product-preserving), and a functor `f' : D^cofib -> C`. Since `f'` has to map inclusions to inclusions, and `C` has none, the category `D` also has to have no inclusions as well. This way we recover finite-product categories with product-preserving functors between them (Lawvere theories) a trivial case of weak model categories and model functors between them.
+
 
 ## Exposition of the Formalism
 Please recall that a finitary algebraic theory can be identified with a finitely presented finite product category `T`. Syntactic description of an algebraic category is precisely the presentation of such a category in terms of generators and relations:
