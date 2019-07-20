@@ -13,7 +13,7 @@ Bidirectional presentation exibits three kinds of expressions:
 - terms `t` which can reified into a radical `(t : T)` when typechecked against `T`;
 - redexes `r` which can be evaluated into a radical.
 
-This somehow corresponds to bifibrant, fibrant and cofibrant objects, the evaluation `eval : Redex ↪̃ Rad` of a redex into a radical to the fibrant replacement, and the forgetful map `just : Rad ↠̃ Term` from radicals into terms to the cofibrant replacement.
+This somehow corresponds to bifibrant, fibrant and cofibrant objects, the evaluation `Redex ↪̃ Rad` of a redex into a radical to the fibrant replacement, and the forgetful map `Rad ↠̃ Term` from radicals into terms to the cofibrant replacement.
 
 
 
