@@ -6,7 +6,7 @@ Making use of recently developed notion of weak model categories [Hen19], we pro
 Much like algebraic theories and generalized algebraic theories without equations on sorts [Car81], yet in contrast to EATs, our proposal keeps applicability of formation rules decidable regardless of word problem decidablity for the respective theory, thus we argue it to be not only an essentially, but a truly algebraic formalism. Thus we pursue the approach of [Is17] regarding type theories as algebraic presentations of structured categories and category-like structures.
 
 # Introduction
-The starting point for our survey was the analogy between bidirectional presentation of type theories and weak model categories.
+The starting point for our endeavour was the analogy between bidirectional presentation of type theories and weak model categories.
 
 Bidirectional presentation exibits three kinds of expressions:
 - radicals of the form `(t : T)`;
@@ -24,19 +24,46 @@ This somehow corresponds to bifibrant, fibrant and cofibrant objects, the evalua
 
                   n : bif
 ——————————    ——————————————     
- Zero rad      n^conv : Nat
+ Zero rad      n.conv : Nat
 
                  n : Succ        n : Succ
 ——————————    ——————————————    ——————————————
- Succ rad      n^conv : Nat      n.prev : Nat
+ Succ rad      n.conv : Nat      n.prev : Nat
 
-                 s : Sum
-———————————    ——————————————
- Sum redex      s.eval : Nat
+                   s : SExpr
+—————————————    ——————————————
+ SExpr redex      s^eval : Nat
 
-               
-——————————    —————
- 0 : Zero
+
+ 
+ n : (Zero + Succ)    m : Nat
+——————————————————————————————
+       n + m : SExpr
+
+(Zero + Succ)
+
+
+
+
+Given bifibrant `X` and `Y` and fibrant `Z`, the product 
+
+The unique map `X + Y` is a fibration?
+
+`X + Y` is cofibrant. Thus the unique map `X + Y -> 1` a trivial inclusion followed by a projection.
+`X + Y` has a bifibrant replacement.
+
+ 
+ 
+ 
+ z : Zero
+————————————
+ z.conv = 0
+
+     s : Succ
+————————————————————
+ s.conv = (s.pred)'
+
+
 ```
 
 ## Motivating example
