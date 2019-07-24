@@ -43,8 +43,8 @@ functorial in `X ∈ C^cof` and `Y ∈ D^fib`.
 
 We adopt a slight modification of definition in [Hen19] allowing for weak model categories degenerate subcategories of inclusions or projections to recover a finite-product categories and product-preserving functors between them (Lawvere theories) as a trivial case of weak model categories and model functors between them, by equiping finite-product categories with trivial weak model structure: let the subcategory of inclusions be empty, and the subcategory of projections be the wide subcategory of `C` with maps composed out of isomorphisms and canonic projections of direct products (always nonempty since a finite-product category always has a terminal object). Now consider the model functor from such a category into a model category `D`. It consists of a functor `f` from `C` to `D` mapping projections into projections (thus product-preserving), and a functor `f' : D^cof -> C`. Since `f'` has to map inclusions to inclusions, and `C` has none, the category `D` also has to have no inclusions as well.
 
-In order to interpret XATs in weak model categories we'll need an additional property, the Frobenius condition:
-— Fibered products preserve trivial inclusions.
+In order to interpret XATs in weak model categories we'll need an additional property, the (?functorial?) Frobenius condition:
+- Fibered products preserve trivial inclusions.
 
 
 # Exposition of the Formalism
@@ -86,7 +86,7 @@ We may define one or more projections for any algebraic or syntactic sort. Such 
 ```
 
 In our applications, we'll encounter countless cases of sorts with precisely these two projections (`source` and `target`), so it makes sence to introduce a shorthand notation (which is already very common among type theorists):
-– Let `src ⊢₍ArrowSort₎ f : tgt` always denote `f : ArrowSort[source = src, target = tgt]`. In many cases we'll have multiple types of “arrow sorts” such as functors and proarrows or 1-cells and 2-cells. We reserve turnstile without subscript `⊢` for the sort named "Map" if it exists in the given theory.
+- Let `src ⊢₍ArrowSort₎ f : tgt` always denote `f : ArrowSort[source = src, target = tgt]`. In many cases we'll have multiple types of “arrow sorts” such as functors and proarrows or 1-cells and 2-cells. We reserve turnstile without subscript `⊢` for the sort named "Map" if it exists in the given theory.
 
 Now we can write the above rule as follows:
 ```
@@ -131,6 +131,69 @@ When defining equational laws for sorts with projections, one has to check that 
 ```
 
 Congratulations, that was a XAT definition of a category. But we have not yet learned all kinds of rules we need. The rules already listed are insufficient to give provide finitery definitions for even simplest cases of structured categories (e.g. category with finite products) nor for the simplest cases of category-like objects (e.g. multicategory or even operad).
+
+Let me introduce modal sorts (interpreted by cofibrant objects and maps between them). Maps between modal types are given not by generative, but by analytic rules: these have only one premise, but may have a number of outcomes which reflects the fact that cofibrant objects are not closed under products and fibered products, but are closed under disjoint and amalgamated unions. The application of such a rule can be understood as performing a nondeterministic computation:
+
+```
+————————————
+ QBit mod
+ 
+     q : QBit 
+—————————————————check
+ up : A   dn : B
+```
+
+When declaring a modal (or syntactic) sort, you can define injections from other modal or syntactic sorts:
+```
+                     a : A               b : B
+————————————    ————————————————    ————————————————
+ Either syn      inl!a : Either      inr!b : Either
+```
+
+Dually to the case of projections (you have to provide reductions for postcomposing a projection for every generative rule you define), you have to provide reductions for precomposing each of the projections for every analytic rule you define:
+```
+    e : Either 
+—————————————————split
+ lt : A   rt : B
+ 
+
+ inl!a            inl!b
+————————split    ————————split
+ lt = a           rt = b
+```
+
+It is forbidden for generative rules to map into a modal sort, so no unexpected elements will ever appear in such sorts in models. This allows us to do the trick to guarantee that some syntactic type stays initial in all models (this is known as uniqueness or η-expansion rules). Consider the type of products:
+```
+                p : Prod         p : Prod
+——————————    —————————————    —————————————
+ Prod syn      p.fst : Map      p.snd : Map
+ 
+ f g : Map    f.source = g.source
+——————————————————————————————————
+  <f, g> : Prod[fst = f, snd = g]
+
+                 p : Prod
+——————————    ——————————————
+ PROD mod      inj!p : PROD
+
+ x : PROD                x = η!p
+——————————reify    —————————————————————
+ r : Prod           r = <p.fst, p.snd>
+```
+
+If somebody would add a new constant to the type `Prod` in extensions of this theory, they would need to provide values for `.fst` and `.snd`, and then applying the map `reify(inj!p)` (which is a trivial injection) would bring the new constant into the canonical form `<x, y>`. Thus the sort `Prod` in any model is equivalent to itself in the initial model. The sort Either as we defined it, is not guaranteed to contain a value of the type `A` or `B` (it could contain no value at all). Ee could fix the coproduct sort `Either` by providing the exact dual of `PROD`:
+```
+                    e : EITHER
+————————————     —————————————————
+ EITHER alg       e.proj : Either
+ 
+?????
+```
+
+Here we can also show that `lift(e).proj` has to be an equivalence.
+
+What we do next is to define a syntactic type of natural numbers and a computation (sum) for it. Then we'll do the same for the type of lists, which will allow us to define operad and proceed to multicategory and to a virtual double category, demonstrating how to implement generalized multicategoires.
+
 
 * * *
 
