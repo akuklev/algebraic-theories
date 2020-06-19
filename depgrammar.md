@@ -53,17 +53,36 @@ A workable solution is to distinguish indexing sorts, which are either free sort
 
 In the following we'll start with a broad generalisation of algebraic theories and restrict it step-by-step while refining its semantics at the same time.
 
-<h2>§ Essentially Algebraic Theories</h2>
+
+<h2>§ Algebraic Theories: An exposition</h2>
 {TODO: Exposition}
+{Categorical semantics:
+1. Description = Finite presentation of an FPCat
+2. Syntactic model = This FPCat
+3. Models = Product-preserving Functors from this FPCat
+4. Homomorphisms = Natural transformations between that functors
+5. We have a category of models and homomorphisms, the syntactic model is it's canonical initial object.
+6. Say a word that this category comes with a tensor product and proarrows}
 
+{HoTT semantics:
+1. Initial model given by a closed inductive type family.
+2. Models are (non-dependent set-level) elimination motives: a coinductive type family.
+3. Isomorphisms given by equality.
+4. Say a word about how to define homomorphisms, tensor product and proarrows.
+}
 
-<h2>§ Algebraic Theories with Index Sorts</h2>
+<h3>§§ Essentially Algebraic Theories</h3>
+{TODO: Exposition}
+{Categorical semantics: Same as algebraic, but categories with finite limits and lex functors.}
+
+<h2>§ Novel Variations</h2>
+
+<h3>§§ Algebraic Theories with Index Sorts</h3>
 Algebraic theories with index sorts are a special case of EATs, where some sorts are marked as index sorts and there is an additional kind of formation rules: formation rules of “canonical forms” written with `term ↪ T` instead of `term : T` below the rule. Canonical forms have to map from and into index sorts only.
 
-The only conditions allowed in algebraic theories with index sorts are of the form `t = c` where `t` is a (noncanonical) term of index type and `c` is a canonical form of the same type. All equational rules in index sorts also must be of this form. Every (noncanonical) formation rule into an index sort must come with a number of equational rules allowing to unambiguously find an equal a canonical form for a term whenever arguments of canonical form are substituted. These rules are called computation rules. No other equational rules in index sorts are allowed. In particular, index sorts with no canonical forms have to be free (no equations allowed).
+The only conditions allowed in algebraic theories with index sorts are of the form `t = c` where `t` is a (non-canonical) term of index type and `c` is a canonical form of the same type. All equational rules in index sorts also must be of this form. Every (noncanonical) formation rule into an index sort must come with a number of equational rules allowing to unambiguously find an equal a canonical form for a term whenever arguments of canonical form are substituted. These rules are called computation rules. No other equational rules in index sorts are allowed. In particular, index sorts with no canonical forms have to be free (no equations allowed).
 
-Here is an example:
-
+<figure><b>Fig. 3: Index sort of natural numbers with addition.</b>
 <pre>```
                             n : Nat
 —————————    ——————————    —————————
@@ -80,14 +99,13 @@ Here is an example:
  n : Nat    m : Nat    k : Nat    n = k'
 —————————————————————————————————————————
         n + m = (k + m)'
-```</pre>
-
-Injective sorts are helpful when one wants to define dependent sorts like `Mat[n, m]` of `(n × m)`-matrices or `Pred[n]` of predicates with `n` untyped variables or `Pred[ctx]` of predicates in context `ctx`, where context is a finite list of types of variables.
+```</pre></figure>
+Index sorts are helpful when one wants to define dependent sorts like `Mat[n, m]` of `(n × m)`-matrices or `Pred[n]` of predicates with `n` untyped variables or `Pred[ctx]` of predicates in context `ctx`, where context is a finite list of types of variables.
 
 Index sorts are normally intended to be “closed”, i.e. not to be extended in models. Index sorts which are explicitly allowed to be extended (yet only freely) in models are called abstract.
 
 Example:
-
+<figure><b>Fig. 4: Index sort of lists over an abstract sort.</b>
 <pre>```
 ————————    —————————
  Ob abs      Ctx idx
@@ -109,16 +127,15 @@ Example:
 ————————————————————————————————————————————————————————————————————
  append(a, b) = (append(a, tail); head)
 
-```</pre>
-
+```</pre></figure>
 We'll introduce a refined semantics for Algebraic Theories with Index Sorts: namely, we do not want to distinguish between models which differ by inaccessible or indistinguishable elements of index types. This will ultimately lead to notion of equivalence of categories for algebraic theory of categories.
 
 
-<h2>§ Algebraic Theories with Index and Indexed Sorts</h2>
+<h2>§§ Algebraic Theories with Index and Indexed Sorts</h2>
 In this extensions, each sort may additionally have a fixed number of named indexes, e.g. `Mat[width : Nat, height : Nat]`. Types of indexes are not limited to index types, but only indexes of index types can be used in conditions of formative rules. Equational laws are allowed only if indices of left hand side and right hand side are equal (either nominally, or by application of computation rules).
 
 Every formative rule must be supplied by equations expressing indices of outcome in terms of indices of its constituents. These can be included into the formative rule as in the following example:
-
+<figure><b>Fig. 5: Language of first order propositions for a single-sorted theory</b>
 <pre>```
                             n : Nat
 —————————    ——————————    —————————
@@ -130,11 +147,10 @@ Every formative rule must be supplied by equations expressing indices of outcome
  a : Mat   b : Mat   a.height = b.width
 ————————————————————————————————————————
    ab : Mat[a.height, b.width]
-```</pre>
-
+```</pre></figure>
 Algebraic Theories with Index and Indexed Sorts where the only index types are free types are syntactically precisely the <a href="https://ncatlab.org/nlab/show/generalized+algebraic+theory">Generalised Algebraic Theories</a> without sort equation. For readers with CS background, initial algebras of such theories can be expressed the closed Quotient-Inductive-Inductive Types[https://arxiv.org/abs/1612.02346] and set-valued models as their (non-dependent, set-level) elimination motives.
 
-Example: Definition of Semicategories
+<figure><b>Fig. 6: Definition of Semicategories</b>
 <pre>```
 ————————    ———————————————————————————————
  Ob abs      Map[source : Ob, target : Ob]
@@ -146,15 +162,15 @@ Example: Definition of Semicategories
  f : Map    g : Map    h : Map    f.target = g.source    g.target = h.source
 —————————————————————————————————————————————————————————————————————————————
                f(gh) = (fg)h
-```</pre>
-
+```</pre></figure>
 Initial algebras for generic Algebraic Theories with Index- and Index-Dependent Sorts are the closed Quotient-Inductive-Inductive-Recursive Types, the non-canonical formation rules for index types with their respective computation rules taking them to the canonical ones are turned into internal recursive functions.
 
 Algebraic Theories with Index- and Index-Dependent Sorts can be used to define language of propositions for logics. Let's start with the case of single-sorted underlying theory. 
 
-Example: Language of propositions for minimal logic 
+<h3>§§ Case study: Proposition Languages, Type-Theoretical Notation</h3>
+
+<figure><b>Fig. 7: Language of first order propositions for a single-sorted theory</b>
 <pre>```
-@import Nat
 
 ——————————————— Type of terms with `n` variables
  Term[n : Nat]
@@ -215,10 +231,11 @@ Quantifiers:
  n: Nat   p : Pred[n']
 ———————————————————————
     ∃p : Pred[n]
-```</pre>
+```</pre></figure>
 
 Now let's move to the version for many-sorted theories. First, in addition to the type `Nat` of natural numbers (we'll need that for `var(n) : Term[n']`) we'll define the type `Ctx[n : Nat]` of contexts of length `n`, i.e. lists of types of variables. It will be defined upon abstract type `Ob` of theory-specific sorts. `Ctx[n : Nat]` makes substantial use of the feature that index types can be indexed themselves.
 
+<figure><b>Fig. 8: Defining the index sort of contexts for multi-sorted theories</b>
 <pre>```
                             n : Nat
 —————————    ——————————    —————————
@@ -257,12 +274,15 @@ Now let's move to the version for many-sorted theories. First, in addition to th
 ————————————————————————————————————————————————————————————————————
  append(a, b) = (append(a, tail); head)
 
-```</pre>
+```</pre></figure>
 
 In our applications, we'll encounter countless cases of sorts with precisely these two projections (`source` and `target` or `context` and `type`), so it makes sense to introduce a shorthand notation (which is already very common among type theorists):
 - Let `src ⊢₍ArrowSort₎ f : tgt` always denote `f : ArrowSort[source = src, target = tgt]`. In many cases we'll have multiple types of “arrow sorts” such as functors and proarrows or 1-cells and 2-cells. We use turnstile without subscript `⊢` if only one such sort exists in the given theory, or reserve it for the sort named “Map” otherwise.
 — Analogously, we'll use `ctx ⊢ p Prop` for `p : Prop[ctx]`
 – Let's write `a b .. c : T` instead of `a : T   b : T   ...   c : T` when we have multiple arguments of the same sort.
+
+<figure><b>Fig. 8: Language of first order propositions for a multi-sorted theory</b>
+<pre>```
 
 ——————————————————————— Type of terms in a context
  Term[Г : Ctx, T : Ob]
@@ -303,10 +323,11 @@ Quantifiers:
 ————————————————————————————————————
           Г ⊢ ∃ᴿp Pred
 
-```
+```</pre></figure>
 
 The shorthand notation is also very handy for definition of categories:
-```
+<figure><b>Fig. 9: Type-Theoretical Style Definition of Categories</b>
+<pre>```
  X Y Z : Ob    X ⊢ f : Y    Y ⊢ g : Z 
 ——————————————————————————————————————
            X ⊢ fg : Z 
@@ -318,11 +339,108 @@ The shorthand notation is also very handy for definition of categories:
  A B C D : Ob    A ⊢ f : B    B ⊢ g : C    C ⊢ h : D 
 ——————————————————————————————————————————————————————
                    f(gh) = (fg)h 
-```
+```</pre></figure>
 
-<h2>Staged equality</h2>
+Note that the framework as presented can readily be used for the Type-Theoretical Definition of Weak ω-Categories (by E. Finster, S. Mimram, https://arxiv.org/abs/1706.02866). Note that this theory only contains index and abstract types, no ordinary (algebraic) types whatsoever.
 
-<h2>Internalising types: The Bi-directional Doctrine</h2>
+<h2>§§§ Proposition Language for FOLDS</h2>
+
+FOLDS is a generalisation of first order logic for multisorted theories. In FOLDS, sorts are declared to be dependent on zero or more previously dependent sorts and come in two flavours: those with equality predicate and those without (in particular categories are defined as theories where `Map`s do have equality predicate while `Ob`jects don't). Relations are introduced as dependent sorts on which no other sorts are dependent. In particular, no sorts can be dependent on relations including equality relations. Signatures of FOLDS-theories are not allowed to contain any theory-specific term formation rules, because one can readily encode constants and functions via relations. For instance, instead of defining a neutral element of a monoid as constant `e : M` we define an unary relation `is-neutral[e : M]`, and instead of composition a ternary relation `is-composition[x y z : M]` with additional axioms involving equality relation ensuring this relation is functional with respect to target `z`. FOLDS-theories have an excellent HoTT  semantics[https://arxiv.org/pdf/2004.06572.pdf]: In models, the type of identifications between elements `e1 e2 : T` of a given sort `T` without equality predicate is taken to be discernability between `e1` and `e2` with help of sorts dependent on `T`. This means in particular, that since no further sorts are allowed to depend on `is-neutral`, any `e1 e2` such that `is-neutral[e1]` and `is-neutral[e2]` satisfy `e1 = e2`, identifiability of objects in a category coincides with isomorphism.
+
+(Remark: There is a notion of FOLDS⁺, where term formation rules are allowed. FOLDS⁺-theories have natural topological interpretations, where algebraically defined constants and functions have to exist globaly, whereas relationaly defined ones are only required to exist locally in a coherent fashion. This language facilitates natural handling of approximate identities in Banach algebras and alike. Later we'll encounter the same phenomenon regarding object classifiers (type theoretical universes): for any compact part of the model there will always exist a universe large enough, but a global one cannot exist.)
+
+<figure><b>Fig. 10: Defining the index sort of contexts for FOLDS theories</b>
+<pre>```
+
+——————————————————————    ——————————————————————————
+ Ob[deps: ObList] abs      ObList[length : Nat] idx
+
+                           tail : ObList    head : Ob
+—————————————————————    ——————————————————————————————————————
+ emptyᴰ ↪ ObList[0]      (tail;ᴰ head) ↪ ObList[tail.length']
+
+
+
+———————————————————    ———————————————————
+ Ctx[length : Nat]      Type[Г : Ctx] idx
+
+                       tail : Ctx    tail ⊢ head Type
+—————————————————    ——————————————————————————————————
+ empty ↪ Ctx[0]      (tail; head) ↪ Ctx[tail.length']
+
+
+(definition of elements of Type has to be postponed )
+
+Absence of formation rules means all the terms are simply variables so the type of terms can be made a closed index type (it had to be open algebraic type previously), which allows us to use it in the definition of Type.
+
+
+————————————————————————————— Type of terms in a context
+ Term[Г : Ctx, T : Type] idx
+
+    Г : Ctx    Г ⊢ R Type
+———————————————————————————
+ Г; R ⊢ var(Г.length) ↪ T
+
+ Г : Ctx    Г ⊢ T R Type    Г ⊢ t : T
+——————————————————————————————————————
+       Г; R ⊢ tᴿ ↪ Tᴿ
+
+
+{definition of type}
+
+
+Since no custom relations are added as formers for atomic propositions, the type of propositions can be made into a closed index type: this will enable us later to define a type of proofs `Pf[prop]` without workarounds.
+
+—————————————————————
+ Pred[ctx : Ctx] idx
+
+
+Now the atomic predicates are defined:
+ Г : Ctx     Г ⊢ P Type
+————————————————————————————
+ Г ⊢ P ↪Pred
+
+
+We'll need a marker for sorts that have inbuilt equality predicate:
+
+—————————————————————————
+ HasEquality[O : Ob] abs
+
+ Г : Ctx     Г ⊢ T Type    Г ⊢ t1 t2 : T   ev : HasEquality[T]
+———————————————————————————————————————————————————————————————
+ Г ⊢ equals(T, t1, t2) ↪Pred
+
+
+Logical connectives:
+
+ Г : Ctx    Г ⊢ a b Pred
+———————————————————————————
+    Г ⊢ a => b Pred
+
+{...}
+
+Quantifiers:
+
+ Г : Ctx    Г ⊢ R Type    Г; R ⊢ p Pred
+————————————————————————————————————————
+          Г ⊢ ∀ᴿp Pred
+
+ Г : Ctx    Г ⊢ R Type    Г; R ⊢ p Pred
+————————————————————————————————————————
+          Г ⊢ ∃ᴿp Pred
+
+```</pre></figure>
+
+{TODO: Define proof language, deal with hereditary substitution}
+
+<h2>§§ Staged equality</h2>
+
+{Motivation: Proof language for logics where Pred[n] is not a closed index type}
+{Case study: unbiased definition of a monoid}
+{Case study: multicategory}
+{Microcosm principle}
+
+<h2>§§ Internalising types: The Bi-directional Doctrine</h2>
 
 Let's define a category with binary products
 ```
@@ -350,3 +468,22 @@ Let's define a category with binary products
 
 
 ```
+
+<h2>§§ Categorical Semantics of Extended Algebraic Theories</h2>
+{TODO: Weak Model Categories satisfying Frobenius Condition}
+
+<h2>§§ Discussion</h2>
+1. {Proving existence of initial models for closed finitary EATs in HoTT-I}
+
+2. {Is there a bi-directional HoTT-I?}
+
+3. {Eating itself}
+
+4. (2+3) — The problem of Type-valued functors from a concrete category.
+
+5. {Possible generalisations of algebraic theories: 
+– support for directed sorts (examples: skew monoids, skew semirings)
+— substructural logics and modalities: quantitative type theories & linear logic
+— doctrine for monoidal theories over a generalised field, which turn into algebraic theories if the field is taken to be 𝔽₁ (example: Hopf algebra, models over 𝔽₁ has to be groups).
+}
+
