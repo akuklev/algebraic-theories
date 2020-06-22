@@ -712,3 +712,5 @@ Let's define a category with binary products
 — substructural logics and modalities (not only fibrant and bifibrant, but also cofibrant types on the semantic side): quantitative type theories & linear logic
 — doctrine for monoidal theories over a generalised field, which turn into algebraic theories if the field is taken to be 𝔽₁ (example: Hopf algebra, models over 𝔽₁ has to be groups).
 }
+
+6. Establish a higher Birkhoff's HSP theorem
