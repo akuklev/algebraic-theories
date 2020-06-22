@@ -1,34 +1,43 @@
-<h1>§ A Framework for Complex Symbolic Languages and Algebraically-Structured Categories</h1>
+A Framework for Complex Symbolic Languages and Structured Categories
+====================================================================
 
-<h2>§§ Introduction: Symbolic Languages</h2>
+ABSTRACT: We develop two extensions to the formalism of algebraic theories of successively increasing strength to provide a formalism for symbolic languages including proposition and proof languages for standard logical systems and internal languages for plethora of structured categories. 
+The first one, IIR-EAT, can be understood as stratified version of essentially algebraic theories with slightly refined semantics following the natural model approach of [Awo16]: it allows for more models, yields a more flexible notion of isomorphism and makes IIR-EATs into a superset of Cartmell's Generalised Algebraic Theories without equations on sorts[Car81]. This formalism is sufficient for symbolic languages of first order logical systems, categories with simple algebraic structure (e.g. monoidal categories) and most notably also weak ⍵-categories[Fin17]. We present explicit IIR-EATs of symbolic languages for the single-sorted equational logic and first order logic with dependent sorts[Makkai]. Axiomatic theories are then free algebras for logic systems they are defined upon.
+The second one, XAT (extended algebraic theories), goes even further and incorporate a staging mechanism known as bidirectional typing that allows well-controlled circular type dependencies. XATs can represent symbolic languages of higher order logics and internal languages of (quasi)categories with arbitrary properties that can be expressed as essentially unique algebraic structures (existence of products, limits, internal homs, subobject and object classifiers). XATs have natural functorial semantics in the doctrine of recently developed fibrant weak model categories [Hen20], and the category of models for each theory carries a structure of fibrant weak model category itself. XATs facilitate exact formulations of syntax-semantics duality and Baez-Dolan microcosm principle.
+
+
+§ Introduction: Symbolic Languages
+==================================
+
 The idea of symbolic languages traces back to Leibniz. He conceived symbolic languages for knowledge representation, logical arguments, specification of devices and systems, and even legislation. Symbolic languages were to be strictly unambiguous, have a precise well-defined grammar, a carry an intrinsic notion of sentence identity, i.e. it should be clear what details of how a sentence is being written down (or spoken out, or represented in any other way) are insignificant).
 
-<sidenote>There is a related notion of formal languages in computer science. There, sentences are assumed to be represented as finite sequences of characters of predefined alphabet. This notion differs from the notion of symbolic language by prescribing the representation and lacking unambiguity. In applications, formal languages are usually to be parsed: processed into an unambiguous abstract syntax tree, or rather abstract syntax representation, because plain trees are in general not enough to represent languages with binders like the first order logic (the quantifiers are operators with binders). Symbolic languages are formal languages modulo parsing: they're about abstract syntax representations.</sidenote>
+{Sidenote: There is a related notion of formal languages in computer science. There, sentences are assumed to be represented as finite sequences of characters of predefined alphabet. This notion differs from the notion of symbolic language by prescribing the representation and lacking unambiguity. In applications, formal languages are usually to be parsed: processed into an unambiguous abstract syntax tree, or rather abstract syntax representation, because plain trees are in general not enough to represent languages with binders like the first order logic (the quantifiers are operators with binders). Symbolic languages are formal languages modulo parsing: they're about abstract syntax representations.}
 
 Statements, proofs and constructions in mathematics are mostly written using natural languages (e.g. English) as a matter of fact. But at least since Frege(cf. https://en.wikipedia.org/wiki/Begriffsschrift, 1879) it is universally assumed that it's possible to use well-defined symbolic language instead. Mathematicians keep writing up their results using natural languages because they are way more human-readable and much better at expressing subtleties and the thought process which lead to the result: ultimately a goal of a paper is not just establishing a mathematical fact but also instructing the reader how to carry out such or a similar proof themselves. Yet mathematicians strive to keep relevant parts trivially translatable into the respective symbolic language.
 
-While mentally using a symbolic language or two (the first order logic and its proof language, known as natural deduction) for these purposes, generic pure mathematicians have had little interest in symbolic languages as subject of study. The area was predominantly studied by computer scientists driven by applications: symbolic languages are used computer-aided knowledge representation, software development (declarative programming languages are precisely the symbolic languages for specification of algorithms, interactive systems and distributed systems) and computer-verifiable proofs. Being application-driven, the area relied on a patchwork of ad-hoc formalisms of little mathematical elegance and no known connections to other areas of mathematics.
+While mentally using a symbolic language or two (the first order logic and its proof language, known as natural deduction) for these purposes, generic pure mathematicians have had little interest in symbolic languages as subject of study. The area was predominantly studied by computer scientists driven by applications: symbolic languages are used computer-aided knowledge representation, software development (declarative programming languages are precisely the symbolic languages for specification of algorithms, interactive systems and distributed systems) and computer-verifiable proofs. Being application-driven, the area relied on a patchwork of ad-hoc formalisms of varying mathematical elegance and no strong connections to other areas of mathematics.
 
-In recent decades, an elegant theory underlying symbolic languages has begun to emerge. It turned out to have deep connections to category theory, abstract homotopy theory, algebraic geometry, and ultimately even to theoretical physics.
+In recent decades, a solid theory of symbolic languages has begun to emerge, uncovering a multitude of connections to category theory, abstract homotopy theory and algebraic geometry. 
 
+§ Exposition: Symbolic Languages and Algebraic Theories
+=======================================================
 
-<h2>§§§ Symbolic Languages and Algebraic Theories</h2>
-Mathematical facts (theorems) are stated and proven inside of a respective axiomatic theory, e.g. Euclidean geometry. For sake of reusability and composability of mathematical results, generic mathematicians<sup>[^1]</sup> usually work inside of a common ground: an axiomatic theory of vast generality known as Zermelo–Fraenkel set theory, into which more specialised axiomatic theories (like theory of groups) are submerged. However, it makes a lot of sense to study specialised axiomatic theories in their own right.
+Mathematical facts (theorems) are stated and proven inside of a respective axiomatic theory, e.g. Euclidean Geometry. For sake of reusability and composability of mathematical results, generic mathematicians<sup>[^1]</sup> usually work inside of a common environment: an axiomatic theory of vast generality known as Zermelo–Fraenkel set theory, into which more specialised axiomatic theories (like theory of groups) are submerged. However, it makes a lot of sense to study specialised axiomatic theories in their own right.
 
 An axiomatic theory is defined upon a chosen underlying logic (usually, classical first order logic unless stated otherwise) and is given by
 – a language in which propositions of the theory are stated (the language of the underlying logic extended by theory-specific syntax), and
 – a finite or recursively generated set of axioms in this language, i.e. propositions assumed to be true a priori in this particular theory.
 
-A logic consists of a common language base for axiomatic theories stated upon this logic, and language for proofs specific to this logic. There is more than one way to define what a language is, but we will assume that these languages are given in terms of formation rules (also called “derivation rules” in case of a proof language) that can be used to generate a set of unambiguous expressions being valid propositions and correct proofs respectively.
+A logic consists of an extendible common language base for axiomatic theories stated upon this logic, and a language for proofs specific to this logic. These symbolic languages can be described in terms of formation rules (also called “inference rules” in proof languages) generating a set of well-formed (by construction) propositions and a set of correct (by construction) proofs respectively.
 
-<figure><b>Fig. 1: Examples of formation and derivation rules.</b>
+<figure><b>Fig. 1: Examples of formation and inference rules.</b>
 <pre>```
  A : Prop   B : Prop       A : Prop   B : Prop   x : Pf[A]    y : Pf[A => B]
 —————————————————————     ———————————————————————————————————————————————————Modus Ponens
     A => B : Prop                           MP(x,y) : Pf[B]
 
 ```</pre></figure>
-<lj-cut>Equational logic can be seen as a weak fragment of classical first order logic where the only axioms allowed are universally-qualified equational laws. Thus theories based upon equational logic cannot express any properties of non-functional relations, in particular incidence relations, order relations and partially defined operations (like division in fields and division rings). For this reason for theories defined upon equational logic, theory specific syntax is limited to a fixed number of functional symbols of fixed arities (symbols of arity zero being called constants). Theory-specific syntax is usually described precisely in the form we used in Fig. 1 above, as formation rules for terms of the theory.
+<lj-cut>Equational logic can be seen as a weak fragment of classical first order logic where the only axioms allowed are universally-qualified equational laws. Thus theories based upon equational logic cannot express any properties of non-functional relations, in particular incidence relations, order relations and partially defined operations (like division in fields). For this reason for theories defined upon equational logic, theory specific syntax is limited to a fixed number of functional symbols of fixed arities (symbols of arity zero being called constants). Theory-specific syntax is usually described precisely in the form we used in Fig. 1 above, as formation rules for terms of the theory.
 
 Lots of interesting axiomatic theories including theory of groups, theory of rings and theory of modules over a ring can be stated and studied upon equational logic. Proofs in equational logic are limited to algebraic manipulations (transforming symbolic expressions using equalities to prove other equalities). For this reason, such theories are known as <a href="https://ncatlab.org/nlab/show/algebraic+theory">algebraic theories</a>. Algebraic theories have <a href="https://ncatlab.org/nlab/show/Functorial+Semantics+of+Algebraic+Theories">exceptionally elegant and well-understood model theory</a>, and <a href="https://en.wikipedia.org/wiki/Variety_(universal_algebra)#Birkhoff&#39;s_theorem">most well-behaved correspondence between syntax and semantics</a>.
 
@@ -45,15 +54,17 @@ An algebraic theory is a grammar + equational laws between terms generated by th
 
 To make sense of a dependently typed grammar, one has to rely a certain notion of equality[^2] on indexes of the types. Moreover, when two occurrences of typal dependency (`Proof[prop]` and `Prop[ctx]`) come into interaction, equality cannot by swept under the rug: in order to define proposition and proof languages for logics, we have to provide their grammars together with some additional equational laws; the framework to describe sufficiently elaborate grammars is necessarily a generalisation of algebraic theories' framework.
 
-Ultimately, it is desired to obtain a framework of extended algebraic theories (XATs), so that each conventional logical system can be expressed as an extended algebraic theory and an axiomatic theory upon this system as its free algebra generated by sort definitions, term formation rules and axioms of the theory. The framework should support at least classical and intuitionistic first order logic (including FOLDS = first order logic with dependent sorts), equational logic (optimally, it should “eat itself”) and encompass an algebraic definition of an elementary ∞-topos, which is a modern foundational alternative to Zermelo–Fraenkel set theory.
+Ultimately, it is desired to obtain a framework of extended algebraic theories (XATs), so that each standard logical system can be expressed as an extended algebraic theory and an axiomatic theory upon this system as its free algebra generated by sort definitions, term formation rules and axioms of the theory. The framework should support at least classical and intuitionistic first order logic (including FOLDS = first order logic with dependent sorts), equational logic (optimally, it should “eat itself”) and encompass an algebraic definition of an elementary ∞-topos, which is a modern foundational alternative to Zermelo–Fraenkel set theory.
 
-Establishing of an all-encompassing framework of this kind with a nice semantics is however still work-in-progress. Present work is an attempt to progress in this direction.
+Establishing such an all-encompassing framework of this kind with a nice semantics is however still work-in-progress. Present work is an attempt to progress in this direction.
 
 [^1]: <i>A generic mathematician, or more precisely a generic pure mathematician, is a mathematician working in the areas of algebra, analysis, geometry, topology or number theory, using classical logic and the axiom of choice.</i> — David M Roberts, hott.zulipchat.com
 
 [^2]: Actually, instead of equality a more general notion of canonical convertibility can be developed for this case.
 
-<h3>§§ The Equality Problem</h3>
+§§ The Equality Problem
+-----------------------
+
 In the framework of algebraic theories (both <a href="https://ncatlab.org/nlab/show/Lawvere+theory">single-sorted</a> or <a href="https://ncatlab.org/toddtrimble/published/multisorted+Lawvere+theories">multisorted</a> with a fixed finite collection of sorts), equations are imposed upon grammar and not intertwined with it. In order to construct an initial model, one just generates the set of terms from the grammar and factors it by equations. In this framework there is also no notion of equality on sorts except for the purely syntactic notion of nominal equality (equally named sorts are equal).
 
 It gets more tricky if one extends the framework to accommodate dependently-typed formation rules. In such theories sorts are generalised to types which are in general dependent on values of other types, say `Mat[n, m]` of `(n × m)`-matrices, which can be multiplied only if dimensions match. In such cases one speaks of sort `Mat` with two indexes of type `Nat`. The concrete type is given by sort and fixed values for all of its parameters, e.g. `Mat[3, 3]`. With dependent types we run into a problem: in order to see if a term of type `T[x]` fits into a receptacle of type `T[x']` we need to be able to check if `x = x'`, and it might even happen that `x : G[y]` and `x' : G[y']` so that we need to check if `y = y'` even to start checking if `x = x'`.
@@ -65,7 +76,9 @@ A workable solution is to distinguish indexing sorts, which are either free sort
 In the following we'll start with a broad generalisation of algebraic theories and restrict it step-by-step while refining its semantics at the same time.
 
 
-<h2>§§ Algebraic Theories: An exposition</h2>
+§§ Algebraic Theories
+---------------------
+
 {TODO: Exposition}
 {Categorical semantics:
 1. Signature (incl. equations) = Finite presentation of an FPCat
@@ -82,13 +95,18 @@ In the following we'll start with a broad generalisation of algebraic theories a
 4. Say a word about how to define homomorphisms, tensor product and proarrows.
 }
 
-<h3>§§ Essentially Algebraic Theories</h3>
+§§ Essentially Algebraic Theories
+---------------------------------
 {TODO: Exposition}
 {Categorical semantics: Same as algebraic, but categories with finite limits and lex functors.}
 
-<h2>§ Novel Variations</h2>
 
-<h3>§§ Algebraic Theories with Index Sorts</h3>
+§ The First Novel Formalism
+===========================
+
+§§ Index Sorts
+--------------
+
 Algebraic theories with index sorts are a special case of EATs, where some sorts are marked as index sorts and there is an additional kind of formation rules: formation rules of “canonical forms” written with `term ↪ T` instead of `term : T` below the rule. Canonical forms have to map from and into index sorts only.
 
 The only conditions allowed in algebraic theories with index sorts are of the form `t = c` where `t` is a (non-canonical) term of index type and `c` is a canonical form of the same type. All equational rules in index sorts also must be of this form. Every (noncanonical) formation rule into an index sort must come with a number of equational rules allowing to unambiguously find an equal a canonical form for a term whenever arguments of canonical form are substituted. These rules are called computation rules. No other equational rules in index sorts are allowed. In particular, index sorts with no canonical forms have to be free (no equations allowed), we'll call such sorts abstract.
@@ -141,7 +159,9 @@ Example:
 ```</pre></figure>
 We'll introduce a refined semantics for Algebraic Theories with Index Sorts: namely, we do not want to distinguish between models which differ by inaccessible or indistinguishable elements of index types. This will ultimately lead to notion of equivalence of categories for algebraic theory of categories.
 
-<h2>§§§ Categorical Initial Model</h2>
+Index sorts: Categorical Initial Model
+--------------------------------------
+
 As it was already mentioned, Algebraic Theories with Index Sorts can be interpreted as a subclass of essentially algebraic theories, so initial model for each such theory (a finitely-presentable category with finite limits) is known to exist[Palmgren-Vickers][^ It is even known to be constructible in every topos with a natural number object]. But the signature of an algebraic theory with index sorts actually provides more structure:
 – A subclass of objects known as index sort objects (also includes finite products of sort objects and the terminal object 1);
 – A subclass of maps known as canonical inclusions (maps generated by formation rules for canonical forms), all of which have index sort object as their source and target;
@@ -150,7 +170,9 @@ As it was already mentioned, Algebraic Theories with Index Sorts can be interpre
 
 (Note: Index sort objects with inclusions form a subcategory.)
 
-<h2>§§ Algebraic Theories with Index and Indexed Sorts</h2>
+§§ IIR-EATs: Algebraic Theories with Index and Indexed Sorts
+------------------------------------------------------------
+
 In this extension, each sort may additionally have a fixed number of named indexes, e.g. `Mat[width : Nat, height : Nat]`. Types of indexes are not limited to index types, but only indexes of index types can be used in conditions of formative rules. Equational laws are allowed only if indices of left hand side and right hand side are equal (either nominally, or by application of computation rules).
 
 Every formative rule must be supplied by equations expressing indices of outcome in terms of indices of its constituents. These can be included into the formative rule as in the following example:
@@ -184,7 +206,9 @@ Algebraic Theories with Index and Indexed Sorts where the only index types are f
 ```</pre></figure>
 Initial algebras for generic Algebraic Theories with Index- and Index-Dependent Sorts are the closed Quotient-Inductive-Inductive-Recursive Types, the non-canonical formation rules for index types with their respective computation rules taking them to the canonical ones are turned into internal recursive functions.
 
-<h2>§§§ Categorical Initial Model</h2>
+§§ Categorical Initial Model
+----------------------------
+
 Algebraic Theories with Index and Indexed Sorts can also be seen as a special case of essentially algebraic theories, so their EAT-initial model (a finitely-presentable category with finite limits) can be constructed. But the signature provides information for more structure:
 – A wide subcategory of index maps (including unique maps into the terminal object 1 from any object).
 — A subcategory of index sort objects and inclusions (now closed not only under products but also under pullbacks along index maps into index sorts), and it is still guaranteed that every map `f : 1 -> T` into an index sort object factorises into a free inclusion followed by a canonical inclusion. 
@@ -192,6 +216,34 @@ Algebraic Theories with Index and Indexed Sorts can also be seen as a special ca
 This category contains lots of unnecessary limits. In order to represent only syntactically relevant data, all limits except pullbacks of sorts along index maps (only one leg being an index map is sufficient) into index sorts. Note that first projections of such pullbacks and thus both projections of products should count as index maps.
 
 Please note that free inclusions can be characterises via LLP with respect to index maps. Later we'll make use of this characterisation for the definition of the doctrine of structured categories suitable to model our flavour of extended algebraic theories and structure-preserving functors between them.
+
+§§ A Theory for Single-Sorted Equational Logic
+----------------------------------------------
+(Dealing with hereditary substitution)
+
+```
+———————————————————————————    ———————————————————————
+ Operator[arity : Nat] abs      Term[arity : Nat] idx
+
+———————————————————————————————————————————————————
+ EquationalLaw[arity : Nat, lhs rhs : Term[arity]]
+
+
+
+                    n m : Nat    o : Operator[n]    l : TermList[n, m]
+———————————————    ———————————————————————————————————————————————————
+ var ↪ Term[1]                    apply(o, l) ↪ Term[m]
+
+ n m : Nat    t : Term[n]    l : TermList[n, m]   
+————————————————————————————————————————————————
+     compose(t, l) : Term[m]
+
+
+{deal with hereditary substitution via “Everybody’s Got To Be Somewhere” by Conor McBride, https://arxiv.org/pdf/1807.04085.pdf}
+
+```
+          
+—
 
 <h3>§§ Case study: Proposition Languages, Type-Theoretical Notation</h3>
 Algebraic Theories with Index and Indexed Sorts can be used to define language of propositions for logics. Let's start with the case of single-sorted underlying theory. 
@@ -474,7 +526,7 @@ Quantifiers:
 
 ```</pre></figure>
 
-{TODO: Define proof language, deal with hereditary substitution via “Everybody’s Got To Be Somewhere” by Conor McBride, https://arxiv.org/pdf/1807.04085.pdf}
+{TODO: Define proof language, }
 
 <h2>§§ Staged equality/abstract covering sorts</h2>
 
