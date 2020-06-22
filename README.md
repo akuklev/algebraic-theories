@@ -11,7 +11,7 @@ The second one, XAT (extended algebraic theories), goes even further and incorpo
 
 The idea of symbolic languages traces back to Leibniz. He conceived symbolic languages for knowledge representation, logical arguments, specification of devices and systems, and even legislation. Symbolic languages were to be strictly unambiguous, have a precise well-defined grammar, a carry an intrinsic notion of sentence identity, i.e. it should be clear what details of how a sentence is being written down (or spoken out, or represented in any other way) are insignificant).
 
-<sidenote>There is a related notion of formal languages in computer science. There, sentences are assumed to be represented as finite sequences of characters of predefined alphabet. This notion differs from the notion of symbolic language by prescribing the representation and lacking unambiguity. In applications, formal languages are usually to be parsed: processed into an unambiguous abstract syntax tree, or rather abstract syntax representation, because plain trees are in general not enough to represent languages with binders like the first order logic (the quantifiers are operators with binders). Symbolic languages are formal languages modulo parsing: they're about abstract syntax representations.</sidenote>
+> There is a related notion of formal languages in computer science. There, sentences are assumed to be represented as finite sequences of characters of predefined alphabet. This notion differs from the notion of symbolic language by prescribing the representation and lacking unambiguity. In applications, formal languages are usually to be parsed: processed into an unambiguous abstract syntax tree, or rather abstract syntax representation, because plain trees are in general not enough to represent languages with binders like the first order logic (the quantifiers are operators with binders). Symbolic languages are formal languages modulo parsing: they're about abstract syntax representations.
 
 Statements, proofs and constructions in mathematics are mostly written using natural languages (e.g. English) as a matter of fact. But at least since Frege(cf. https://en.wikipedia.org/wiki/Begriffsschrift, 1879) it is universally assumed that it's possible to use well-defined symbolic language instead. Mathematicians keep writing up their results using natural languages because they are way more human-readable and much better at expressing subtleties and the thought process which lead to the result: ultimately a goal of a paper is not just establishing a mathematical fact but also instructing the reader how to carry out such or a similar proof themselves. Yet mathematicians strive to keep relevant parts trivially translatable into the respective symbolic language.
 
@@ -30,25 +30,26 @@ An axiomatic theory is defined upon a chosen underlying logic (usually, classica
 
 A logic consists of an extendible common language base for axiomatic theories stated upon this logic, and a language for proofs specific to this logic. These symbolic languages can be described in terms of formation rules (also called “inference rules” in proof languages) generating a set of well-formed (by construction) propositions and a set of correct (by construction) proofs respectively.
 
-<figure>**Fig. 1: Examples of formation and inference rules.**
+**Fig. 1: Examples of formation and inference rules.**
 ```
  A : Prop   B : Prop       A : Prop   B : Prop   x : Pf[A]    y : Pf[A => B]
 —————————————————————     ———————————————————————————————————————————————————Modus Ponens
     A => B : Prop                           MP(x,y) : Pf[B]
 
 ```
-</figure>
+
 Equational logic can be seen as a weak fragment of classical first order logic where the only axioms allowed are universally-qualified equational laws. Thus theories based upon equational logic cannot express any properties of non-functional relations, in particular incidence relations, order relations and partially defined operations (like division in fields). For this reason for theories defined upon equational logic, theory specific syntax is limited to a fixed number of functional symbols of fixed arities (symbols of arity zero being called constants). Theory-specific syntax is usually described precisely in the form we used in Fig. 1 above, as formation rules for terms of the theory.
 
 Lots of interesting axiomatic theories including theory of groups, theory of rings and theory of modules over a ring can be stated and studied upon equational logic. Proofs in equational logic are limited to algebraic manipulations (transforming symbolic expressions using equalities to prove other equalities). For this reason, such theories are known as <a href="https://ncatlab.org/nlab/show/algebraic+theory">algebraic theories</a>. Algebraic theories have <a href="https://ncatlab.org/nlab/show/Functorial+Semantics+of+Algebraic+Theories">exceptionally elegant and well-understood model theory</a>, and <a href="https://en.wikipedia.org/wiki/Variety_(universal_algebra)#Birkhoff&#39;s_theorem">most well-behaved correspondence between syntax and semantics</a>.
 
-<figure><b>Fig. 2: Example of a single-sorted algebraic theory.</b>
-<pre>```
+**Fig. 2: Example of a single-sorted algebraic theory.**
+```
  x   y                     x             x
 ————————    —————     ———————————   ———————————
  [x,y]        e        [e,x] = x     [x,e] = x
 
-```</pre></figure>
+```
+
 All irreducible provable propositions in equational logic are universally qualified and of the form “term₁ = term₂” or “(a = b) ⋀ ··· ⋀ (c = d) ⇒ (x = y)”. Thus, equational logic can be also seen as a logic in its own right with a very tractable proposition and proof languages. Whereas in full first order logic, propositions are arbitrary combinations of nested quantifiers and connectives, in equational logic propositions have a very rigid form, so that quantifiers and connectives can be leaved implicit and not part of the language, a proposition can be described by a nonempty list of equations of finite length, where terms (sides of equalities) are generated by formation rules of the theory and possibly a number of variables. Proof language of equational logic is also vastly simpler: equations can be generated by reflexivity, transformed by symmetry, composed by transitivity and used for algebraic transformations, a proof is just a tree of such steps.
 
 An algebraic theory is a grammar + equational laws between terms generated by the grammar. Grammar of an algebraic theory is allowed to be multisorted (e.g. there two distinct types of variables and terms: “scalars” and “vectors”). Such grammars are however not general enough to describe proposition and proof languages for a logic. A grammar for a proof language (see Fig. 1) is necessarily not just multisorted, but dependently typed: there are types with indexes like `Pf[p]` standing for “Proof of proposition `p`”. Moreover, a if language of propositions has (at least implicit) quantifiers (which is the case for every logic beyond zeroth-order) and also has a dependently typed grammar: besides type `Prop` of closed propositions there have to be types `Pred[ctx]` of predicates of several of variables (where the “context” ctx specifies the number and types of variables).
@@ -59,7 +60,7 @@ Ultimately, it is desired to obtain a framework of extended algebraic theories (
 
 Establishing such an all-encompassing framework of this kind with a nice semantics is however still work-in-progress. Present work is an attempt to progress in this direction.
 
-[^1]: <i>A generic mathematician, or more precisely a generic pure mathematician, is a mathematician working in the areas of algebra, analysis, geometry, topology or number theory, using classical logic and the axiom of choice.</i> — David M Roberts, hott.zulipchat.com
+[^1]: _A generic mathematician, or more precisely a generic pure mathematician, is a mathematician working in the areas of algebra, analysis, geometry, topology or number theory, using classical logic and the axiom of choice._ — David M Roberts, hott.zulipchat.com
 
 [^2]: Actually, instead of equality a more general notion of canonical convertibility can be developed for this case.
 
@@ -112,8 +113,8 @@ Algebraic theories with index sorts are a special case of EATs, where some sorts
 
 The only conditions allowed in algebraic theories with index sorts are of the form `t = c` where `t` is a (non-canonical) term of index type and `c` is a canonical form of the same type. All equational rules in index sorts also must be of this form. Every (noncanonical) formation rule into an index sort must come with a number of equational rules allowing to unambiguously find an equal a canonical form for a term whenever arguments of canonical form are substituted. These rules are called computation rules. No other equational rules in index sorts are allowed. In particular, index sorts with no canonical forms have to be free (no equations allowed), we'll call such sorts abstract.
 
-<figure><b>Fig. 3: Index sort of natural numbers with addition.</b>
-<pre>```
+**Fig. 3: Index sort of natural numbers with addition.**
+```
                             n : Nat
 —————————    ——————————    —————————
  Nat idx      0 ↪ Nat      n' : Nat
@@ -129,14 +130,15 @@ The only conditions allowed in algebraic theories with index sorts are of the fo
  n : Nat    m : Nat    k : Nat    n = k'
 —————————————————————————————————————————
         n + m = (k + m)'
-```</pre></figure>
+```
+
 Index sorts are helpful when one wants to define dependent sorts like `Mat[n, m]` of `(n × m)`-matrices or `Pred[n]` of predicates with `n` untyped variables or `Pred[ctx]` of predicates in context `ctx`, where context is a finite list of types of variables.
 
 Non-abstract index sorts are intended to be “closed”, i.e. not to be extended in models. Abstract sorts are open: they are explicitly allowed to be extended (but only freely).
 
 Example:
-<figure><b>Fig. 4: Index sort of lists over an abstract sort.</b>
-<pre>```
+**Fig. 4: Index sort of lists over an abstract sort.**
+```
 ————————    —————————
  Ob abs      Ctx idx
 
@@ -146,22 +148,21 @@ Example:
 
  a : Ctx    b : Ctx
 ————————————————————
- append(a, b) : Ctx
-
+ concat(a, b) : Ctx
 
  a : Ctx    b : Ctx    b = empty
 —————————————————————————————————
- append(a, b) = b
+ concat(a, b) = b
 
  a : Ctx    b : Ctx    tail : Ctx     head : Ob    b = (tail; head)
 ————————————————————————————————————————————————————————————————————
- append(a, b) = (append(a, tail); head)
+ concat(a, b) = (concat(a, tail); head)
 
-```</pre></figure>
+```
 We'll introduce a refined semantics for Algebraic Theories with Index Sorts: namely, we do not want to distinguish between models which differ by inaccessible or indistinguishable elements of index types. This will ultimately lead to notion of equivalence of categories for algebraic theory of categories.
 
-Index sorts: Categorical Initial Model
---------------------------------------
+§§ Index sorts: Categorical Initial Model
+-----------------------------------------
 
 As it was already mentioned, Algebraic Theories with Index Sorts can be interpreted as a subclass of essentially algebraic theories, so initial model for each such theory (a finitely-presentable category with finite limits) is known to exist[Palmgren-Vickers][^ It is even known to be constructible in every topos with a natural number object]. But the signature of an algebraic theory with index sorts actually provides more structure:
 – A subclass of objects known as index sort objects (also includes finite products of sort objects and the terminal object 1);
@@ -177,8 +178,8 @@ As it was already mentioned, Algebraic Theories with Index Sorts can be interpre
 In this extension, each sort may additionally have a fixed number of named indexes, e.g. `Mat[width : Nat, height : Nat]`. Types of indexes are not limited to index types, but only indexes of index types can be used in conditions of formative rules. Equational laws are allowed only if indices of left hand side and right hand side are equal (either nominally, or by application of computation rules).
 
 Every formative rule must be supplied by equations expressing indices of outcome in terms of indices of its constituents. These can be included into the formative rule as in the following example:
-<figure><b>Fig. 5: Language of first order propositions for a single-sorted theory</b>
-<pre>```
+**Fig. 5: Language of first order propositions for a single-sorted theory**
+```
                             n : Nat
 —————————    ——————————    —————————
  Nat idx      0 ↪ Nat      n' : Nat
@@ -189,11 +190,11 @@ Every formative rule must be supplied by equations expressing indices of outcome
  a : Mat   b : Mat   a.height = b.width
 ————————————————————————————————————————
    ab : Mat[a.height, b.width]
-```</pre></figure>
-Algebraic Theories with Index and Indexed Sorts where the only index types are free types are syntactically precisely the <a href="https://ncatlab.org/nlab/show/generalized+algebraic+theory">Generalised Algebraic Theories</a> without sort equation. For readers with CS background, initial algebras of such theories can be expressed the closed Quotient-Inductive-Inductive Types[https://arxiv.org/abs/1612.02346] and set-valued models as their (non-dependent, set-level) elimination motives.
+```
+Algebraic Theories with Index and Indexed Sorts where the only index types are free types are syntactically precisely the [Generalised Algebraic Theories](https://ncatlab.org/nlab/show/generalized+algebraic+theory) without sort equation. For readers with CS background, initial algebras of such theories can be expressed the closed Quotient-Inductive-Inductive Types[https://arxiv.org/abs/1612.02346] and set-valued models as their (non-dependent, set-level) elimination motives.
 
-<figure><b>Fig. 6: Definition of Semicategories</b>
-<pre>```
+**Fig. 6: Definition of Semicategories**
+```
 ————————    ———————————————————————————————
  Ob abs      Map[source : Ob, target : Ob]
 
@@ -204,7 +205,7 @@ Algebraic Theories with Index and Indexed Sorts where the only index types are f
  f : Map    g : Map    h : Map    f.target = g.source    g.target = h.source
 —————————————————————————————————————————————————————————————————————————————
                f(gh) = (fg)h
-```</pre></figure>
+```
 Initial algebras for generic Algebraic Theories with Index- and Index-Dependent Sorts are the closed Quotient-Inductive-Inductive-Recursive Types, the non-canonical formation rules for index types with their respective computation rules taking them to the canonical ones are turned into internal recursive functions.
 
 §§ Categorical Initial Model
@@ -223,12 +224,42 @@ Please note that free inclusions can be characterises via LLP with respect to in
 (Dealing with hereditary substitution)
 
 ```
+The sorts `Operator` and `Equality` are open, all the others are closed.
+An single-sorted algebraic theory is a free algebra for this theory, i.e. 
+one freely generated by throwing in some operators and some equalities.
+
+
 ———————————————————————————    ———————————————————————
  Operator[arity : Nat] abs      Term[arity : Nat] idx
 
-———————————————————————————————————————————————————
- EquationalLaw[arity : Nat, lhs rhs : Term[arity]]
+——————————————————————————————————————————————————
+ Equality[arity : Nat, lhs rhs : Term[arity]] abs
+ 
+ 
+ We'll postpone definition of the terms and handle inference rules for equalities first:
+ 
+           t : Term
+———————————————————————————————————Reflexivity
+ refl(t) : Equality[t.arity, t, t]
+ 
+            e : Equality
+——————————————————————————————————————————Symmetry
+ rev(e) : Equality[e.arity, e.rhs, e.lhs]
 
+ n : Nat     a b c : Term[n]    e1 : Equality[n, a, b]    e2 : Equality[n, b, c]
+—————————————————————————————————————————————————————————————————————————————————Transitivity
+                       e1•e2 : Equality[n, a, c]
+
+And now the most complicated one – substitution:
+
+ left right : TermList    t : Term[(left.length + right.length)']    e : Equality
+——————————————————————————————————————————————————————————————————————————————————
+ happly(t, e) : Equality[e.length,
+   compose(t, concat((left;e.lhs), right)),
+   compose(t, concat((left;e.rhs), right))]
+
+
+Here comes definition of terms and termlists:
 
 
                     n m : Nat    o : Operator[n]    l : TermList[n, m]
@@ -242,40 +273,39 @@ Please note that free inclusions can be characterises via LLP with respect to in
 
 {deal with hereditary substitution via “Everybody’s Got To Be Somewhere” by Conor McBride, https://arxiv.org/pdf/1807.04085.pdf}
 
-```
-          
-—
+——————————————————————————————————
+ TermList[arity length : Nat] idx
+ 
+ 
+—————————————————————
+ empty ↪ Termlist[0, 0]
+ 
+     tail : TermList   head : Term
+—————————————————————————————————————————————
+ (tail ; head) : TermList[???, tail.length']
+ 
+ a b : TermList
+———————————————————————————————————————————————————
+ concat(a, b) : TermList[???, a.length + b.length]
 
-<h3>§§ Case study: Proposition Languages, Type-Theoretical Notation</h3>
+ a b : TermList    b = empty
+—————————————————————————————
+ concat(a, b) = b
+
+ a b tail : TermList     head : Term    b = (tail; head)
+—————————————————————————————————————————————————————————
+ concat(a, b) = (concat(a, tail); head)
+```
+
+
+§§ Multisorted case, Type-Theoretical Notation
+-----------------------------------------------
+
 Algebraic Theories with Index and Indexed Sorts can be used to define language of propositions for logics. Let's start with the case of single-sorted underlying theory. 
 
 
-<figure><b>Fig. 7: Language of first order propositions for a single-sorted theory</b>
-<pre>```
-The extendable sorts for theory-specific part of the language:
-
-———————————————————————————    ———————————————————————————
- Operator[arity : Nat] abs      Relation[arity : Nat] abs
-
-
-——————————————— Type of terms with `n` variables
- Term[n : Nat]
-
- n m : Nat    o : Operator[m]   args : TermList[n, m]
-——————————————————————————————————————————————————————
-   apply(o, args) : Term[n]
-
-
- t : Term[n]
-———————————————— Terms with `n` variables are included into terms with `n + 1` variables
- t' : Term[n']
-
- n : Nat
-——————————————————— Reference to `n`'th variable is valid term with `n` variables
- var(n) : Term[n']
-
-{TODO: Switch to co-de Bruijn representation}
-
+**Fig. 7: Language of first order propositions for a single-sorted theory**
+```
 Now the atomic predicates are defined:
 
  n : Nat    t1 : Term[n]    t2 : Term[n]
