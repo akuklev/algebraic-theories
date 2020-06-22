@@ -323,7 +323,7 @@ Each variable that a TermList uses, has to be used either in its head, or tail, 
 §§ Multisorted case, Type-Theoretical Notation
 -----------------------------------------------
 
-Algebraic Theories with Index and Indexed Sorts can be used to define language of propositions for logics. Let's start with the case of single-sorted underlying theory. 
+{TODO: Multisorted case of algebraic theories + language of first order props, change to co-de-Bruijn}
 
 
 **Fig. 7: Language of first order propositions for a single-sorted theory**
@@ -363,12 +363,12 @@ Quantifiers:
  n: Nat   p : Pred[n']
 ———————————————————————
     ∃p : Pred[n]
-```</pre></figure>
+```
 
 Now let's move to the version for many-sorted theories. First, in addition to the type `Nat` of natural numbers (we'll need that for `var(n) : Term[n']`) we'll define the type `Ctx[n : Nat]` of contexts of length `n`, i.e. lists of types of variables. It will be defined upon abstract type `Ob` of theory-specific sorts. `Ctx[n : Nat]` makes substantial use of the feature that index types can be indexed themselves.
 
-<figure><b>Fig. 8: Defining the index sort of contexts for multi-sorted theories</b>
-<pre>```
+**Fig. 8: Defining the index sort of contexts for multi-sorted theories**
+```
                             n : Nat
 —————————    ——————————    —————————
  Nat idx      0 ↪ Nat      n' : Nat
@@ -406,15 +406,15 @@ Now let's move to the version for many-sorted theories. First, in addition to th
 ————————————————————————————————————————————————————————————————————
  append(a, b) = (append(a, tail); head)
 
-```</pre></figure>
+```
 
 In our applications, we'll encounter countless cases of sorts with precisely these two projections (`source` and `target` or `context` and `type`), so it makes sense to introduce a shorthand notation (which is already very common among type theorists):
 - Let `src ⊢₍ArrowSort₎ f : tgt` always denote `f : ArrowSort[source = src, target = tgt]`. In many cases we'll have multiple types of “arrow sorts” such as functors and proarrows or 1-cells and 2-cells. We use turnstile without subscript `⊢` if only one such sort exists in the given theory, or reserve it for the sort named “Map” otherwise.
 — Analogously, we'll use `ctx ⊢ p Prop` for `p : Prop[ctx]`
 – Let's write `a b .. c : T` instead of `a : T   b : T   ...   c : T` when we have multiple arguments of the same sort.
 
-<figure><b>Fig. 8: Language of first order propositions for a multi-sorted theory</b>
-<pre>```
+**Fig. 8: Language of first order propositions for a multi-sorted theory**
+```
 
 ——————————————————————— Type of terms in a context
  Term[Г : Ctx, T : Ob]
@@ -455,11 +455,11 @@ Quantifiers:
 ————————————————————————————————————
           Г ⊢ ∃ᴿp Pred
 
-```</pre></figure>
+```
 
 The shorthand notation is also very handy for definition of categories:
-<figure><b>Fig. 9: Type-Theoretical Style Definition of Categories</b>
-<pre>```
+**Fig. 9: Type-Theoretical Style Definition of Categories**
+```
  X Y Z : Ob    X ⊢ f : Y    Y ⊢ g : Z 
 ——————————————————————————————————————
            X ⊢ fg : Z 
@@ -471,18 +471,19 @@ The shorthand notation is also very handy for definition of categories:
  A B C D : Ob    A ⊢ f : B    B ⊢ g : C    C ⊢ h : D 
 ——————————————————————————————————————————————————————
                    f(gh) = (fg)h 
-```</pre></figure>
+```
 
 Note that the framework as presented can readily be used for the Type-Theoretical Definition of Weak ω-Categories (by E. Finster, S. Mimram, https://arxiv.org/abs/1706.02866). Note that this theory only contains index and abstract types, no ordinary (algebraic) types whatsoever.
 
-<h2>§§§ Proposition Language for FOLDS</h2>
+§§§ Proposition Language for FOLDS
+----------------------------------
 
 FOLDS is a generalisation of first order logic for multisorted theories. In FOLDS, sorts are declared to be dependent on zero or more previously dependent sorts and come in two flavours: those with equality predicate and those without (in particular categories are defined as theories where `Map`s do have equality predicate while `Ob`jects don't). Relations are introduced as dependent sorts on which no other sorts are dependent. In particular, no sorts can be dependent on relations including equality relations. Signatures of FOLDS-theories are not allowed to contain any theory-specific term formation rules, because one can readily encode constants and functions via relations. For instance, instead of defining a neutral element of a monoid as constant `e : M` we define an unary relation `is-neutral[e : M]`, and instead of composition a ternary relation `is-composition[x y z : M]` with additional axioms involving equality relation ensuring this relation is functional with respect to target `z`. FOLDS-theories have an excellent HoTT  semantics[https://arxiv.org/pdf/2004.06572.pdf]: In models, the type of identifications between elements `e1 e2 : T` of a given sort `T` without equality predicate is taken to be discernability between `e1` and `e2` with help of sorts dependent on `T`. This means in particular, that since no further sorts are allowed to depend on `is-neutral`, any `e1 e2` such that `is-neutral[e1]` and `is-neutral[e2]` satisfy `e1 = e2`, identifiability of objects in a category coincides with isomorphism.
 
 (Remark: There is a notion of FOLDS⁺, where term formation rules are allowed. FOLDS⁺-theories have natural topological interpretations, where algebraically defined constants and functions have to exist globaly, whereas relationaly defined ones are only required to exist locally in a coherent fashion. This language facilitates natural handling of approximate identities in Banach algebras and alike. Later we'll encounter the same phenomenon regarding object classifiers (type theoretical universes): for any compact part of the model there will always exist a universe large enough, but a global one cannot exist.)
 
-<figure><b>Fig. 10: Defining the index sort of contexts for FOLDS theories</b>
-<pre>```
+**Fig. 10: Defining the index sort of contexts for FOLDS theories**
+```
 
 ——————————————————————    ——————————————————————————
  Ob[deps: ObList] abs      ObList[length : Nat] idx
@@ -577,11 +578,12 @@ Quantifiers:
 ————————————————————————————————————————
           Г ⊢ ∃ᴿp ↪Pred
 
-```</pre></figure>
+```
 
 {TODO: Define proof language, }
 
-<h2>§§ Staged equality/abstract covering sorts</h2>
+§§ Staged equality/abstract covering sorts
+------------------------------------------
 
 {Motivation: Finitely Complete Categories}
 
