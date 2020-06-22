@@ -221,7 +221,8 @@ Please note that free inclusions can be characterises via LLP with respect to in
 
 §§ A Theory for Single-Sorted Equational Logic
 ----------------------------------------------
-(Dealing with hereditary substitution)
+(Dealing with hereditary substitution as described “Everybody’s Got To Be Somewhere” by Conor McBride, https://arxiv.org/pdf/1807.04085.pdf)
+
 
 ```
 The sorts `Operator` and `Equality` are open, all the others are closed.
@@ -266,35 +267,56 @@ Here comes definition of terms and termlists:
 ———————————————    ———————————————————————————————————————————————————
  var ↪ Term[1]                    apply(o, l) ↪ Term[m]
 
- n m : Nat    t : Term[n]    l : TermList[n, m]   
-————————————————————————————————————————————————
-     compose(t, l) : Term[m]
-
-
-{deal with hereditary substitution via “Everybody’s Got To Be Somewhere” by Conor McBride, https://arxiv.org/pdf/1807.04085.pdf}
 
 ——————————————————————————————————
  TermList[arity length : Nat] idx
  
- 
-—————————————————————
+————————————————————————
  empty ↪ Termlist[0, 0]
  
-     tail : TermList   head : Term
-—————————————————————————————————————————————
- (tail ; head) : TermList[???, tail.length']
+
+Each variable that a TermList uses, has to be used either in its head, or tail, or both:
+
+————————————————————————————————
+ VarUsage[l r : Nat] idx
  
- a b : TermList
-———————————————————————————————————————————————————
- concat(a, b) : TermList[???, a.length + b.length]
+————————————————————————    —————————————————————————    —————————————————————————
+ left ↪ VarUsage[0', 0]      right ↪ VarUsage[0, 0']      both ↪ VarUsage[0', 0']
 
- a b : TermList    b = empty
-—————————————————————————————
- concat(a, b) = b
+——————————————————————————————————————————————————————
+ ScopeBranching[leftArity rightArity arity : Nat] idx
 
+——————————————————————————————————————
+ emptyScope ↪ ScopeBranching[0, 0, 0]
+ 
+ tail : ScopeBranching    head : VarUsage
+—————————————————————————————————————————————————————————————————————————————————————————————————————
+ (tail ;ˢ head) : ScopeBranching[(tail.leftArity + head.l), (tail.rightArity + head.r), tail.arity']
+
+
+ tail : TermList[l]   head : Term[r]   s : ScopeBranching[tail.arity, head.arity]
+——————————————————————————————————————————————————————————————————————————————————
+ (tail ;(s) head) : TermList[s.arity, tail.length']
+ 
+ a : TermList    b : TermList    s : ScopeBranching[a.arity, b.arity]
+——————————————————————————————————————————————————————————————————————
+ concat(a, s, b) : TermList[s.arity, a.length + b.length]
+
+ a b : TermList    s: ScopeBranching    b = empty
+——————————————————————————————————————————————————
+ concat(a, s, b) = b
+
+{TODO: Rebranch scope:}
  a b tail : TermList     head : Term    b = (tail; head)
 —————————————————————————————————————————————————————————
  concat(a, b) = (concat(a, tail); head)
+ 
+
+ n m : Nat    t : Term[n]    l : TermList[n, m]   
+————————————————————————————————————————————————
+     compose(t, l) : Term[m]
+     
+{Todo: define composition}
 ```
 
 
