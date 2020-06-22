@@ -7,11 +7,11 @@ The second one, XAT (extended algebraic theories), goes even further and incorpo
 
 
 § Introduction: Symbolic Languages
-==================================
+----------------------------------
 
 The idea of symbolic languages traces back to Leibniz. He conceived symbolic languages for knowledge representation, logical arguments, specification of devices and systems, and even legislation. Symbolic languages were to be strictly unambiguous, have a precise well-defined grammar, a carry an intrinsic notion of sentence identity, i.e. it should be clear what details of how a sentence is being written down (or spoken out, or represented in any other way) are insignificant).
 
-{Sidenote: There is a related notion of formal languages in computer science. There, sentences are assumed to be represented as finite sequences of characters of predefined alphabet. This notion differs from the notion of symbolic language by prescribing the representation and lacking unambiguity. In applications, formal languages are usually to be parsed: processed into an unambiguous abstract syntax tree, or rather abstract syntax representation, because plain trees are in general not enough to represent languages with binders like the first order logic (the quantifiers are operators with binders). Symbolic languages are formal languages modulo parsing: they're about abstract syntax representations.}
+<sidenote>There is a related notion of formal languages in computer science. There, sentences are assumed to be represented as finite sequences of characters of predefined alphabet. This notion differs from the notion of symbolic language by prescribing the representation and lacking unambiguity. In applications, formal languages are usually to be parsed: processed into an unambiguous abstract syntax tree, or rather abstract syntax representation, because plain trees are in general not enough to represent languages with binders like the first order logic (the quantifiers are operators with binders). Symbolic languages are formal languages modulo parsing: they're about abstract syntax representations.</sidenote>
 
 Statements, proofs and constructions in mathematics are mostly written using natural languages (e.g. English) as a matter of fact. But at least since Frege(cf. https://en.wikipedia.org/wiki/Begriffsschrift, 1879) it is universally assumed that it's possible to use well-defined symbolic language instead. Mathematicians keep writing up their results using natural languages because they are way more human-readable and much better at expressing subtleties and the thought process which lead to the result: ultimately a goal of a paper is not just establishing a mathematical fact but also instructing the reader how to carry out such or a similar proof themselves. Yet mathematicians strive to keep relevant parts trivially translatable into the respective symbolic language.
 
@@ -20,7 +20,7 @@ While mentally using a symbolic language or two (the first order logic and its p
 In recent decades, a solid theory of symbolic languages has begun to emerge, uncovering a multitude of connections to category theory, abstract homotopy theory and algebraic geometry. 
 
 § Exposition: Symbolic Languages and Algebraic Theories
-=======================================================
+-------------------------------------------------------
 
 Mathematical facts (theorems) are stated and proven inside of a respective axiomatic theory, e.g. Euclidean Geometry. For sake of reusability and composability of mathematical results, generic mathematicians<sup>[^1]</sup> usually work inside of a common environment: an axiomatic theory of vast generality known as Zermelo–Fraenkel set theory, into which more specialised axiomatic theories (like theory of groups) are submerged. However, it makes a lot of sense to study specialised axiomatic theories in their own right.
 
@@ -30,14 +30,15 @@ An axiomatic theory is defined upon a chosen underlying logic (usually, classica
 
 A logic consists of an extendible common language base for axiomatic theories stated upon this logic, and a language for proofs specific to this logic. These symbolic languages can be described in terms of formation rules (also called “inference rules” in proof languages) generating a set of well-formed (by construction) propositions and a set of correct (by construction) proofs respectively.
 
-<figure><b>Fig. 1: Examples of formation and inference rules.</b>
-<pre>```
+<figure>**Fig. 1: Examples of formation and inference rules.**
+```
  A : Prop   B : Prop       A : Prop   B : Prop   x : Pf[A]    y : Pf[A => B]
 —————————————————————     ———————————————————————————————————————————————————Modus Ponens
     A => B : Prop                           MP(x,y) : Pf[B]
 
-```</pre></figure>
-<lj-cut>Equational logic can be seen as a weak fragment of classical first order logic where the only axioms allowed are universally-qualified equational laws. Thus theories based upon equational logic cannot express any properties of non-functional relations, in particular incidence relations, order relations and partially defined operations (like division in fields). For this reason for theories defined upon equational logic, theory specific syntax is limited to a fixed number of functional symbols of fixed arities (symbols of arity zero being called constants). Theory-specific syntax is usually described precisely in the form we used in Fig. 1 above, as formation rules for terms of the theory.
+```
+</figure>
+Equational logic can be seen as a weak fragment of classical first order logic where the only axioms allowed are universally-qualified equational laws. Thus theories based upon equational logic cannot express any properties of non-functional relations, in particular incidence relations, order relations and partially defined operations (like division in fields). For this reason for theories defined upon equational logic, theory specific syntax is limited to a fixed number of functional symbols of fixed arities (symbols of arity zero being called constants). Theory-specific syntax is usually described precisely in the form we used in Fig. 1 above, as formation rules for terms of the theory.
 
 Lots of interesting axiomatic theories including theory of groups, theory of rings and theory of modules over a ring can be stated and studied upon equational logic. Proofs in equational logic are limited to algebraic manipulations (transforming symbolic expressions using equalities to prove other equalities). For this reason, such theories are known as <a href="https://ncatlab.org/nlab/show/algebraic+theory">algebraic theories</a>. Algebraic theories have <a href="https://ncatlab.org/nlab/show/Functorial+Semantics+of+Algebraic+Theories">exceptionally elegant and well-understood model theory</a>, and <a href="https://en.wikipedia.org/wiki/Variety_(universal_algebra)#Birkhoff&#39;s_theorem">most well-behaved correspondence between syntax and semantics</a>.
 
