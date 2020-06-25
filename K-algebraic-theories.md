@@ -1,34 +1,19 @@
 This is an attempt to provide a formalism similar to that of algebraic theories, for definitions of K-algebras over a generalised field `K`. We will be keeping in mind two kinds of generalised fields: the classical fields and the "field with one element" as defined by A. Connes in [Co1].
 
-Algebraic theories with the linearity restriction (every variable used exactly once in the conclusion) and depndent sorts: for any positive integer number of vectors (variables earlier in the context or functions of them) `x,..,z`of the same type we have a type Span{x,..,z} -- a vector space spanned by `x,..,z`. May have multiple outcomes, possibly dependent on the premises. Over F1 e : Span(x//z) is only possible if all nonzero elements are equal, and there is at least one nonzero element. So, it essentlally boils down to equality over the type.
 
-```
- a b : Nat'
-------------
-    ab
+§ Category of Partial Maps
+--------------------------
 
- a b : Nat'   {a, zero}
-------------------------
-         {ab}
+In computer science, each well-typed programming language "L" defines a category of data types and well-formed programs as maps between them. Due to halting problem, each language either misses some computable maps (i.e. some of the computable maps cannot be expressed in the given language), or allows some well-typed programs that never yield a result in some cases (i.e. never "halt"), in the latter case one has to do with a category of sets and partial maps between them.
 
- a b : Nat'   {b, zero}
-------------------------
-         {ab}
+The category of sets and maps functions can be seen as a category of pointed sets and with point-preserving (total) maps. It is, sets are augmented with additional "sticky element" `⊥` and programs that never halt are formally assumed to return the "non-value" `⊥`. The "stickiness", means that each map returns `⊥` when applied to `⊥`: a function applied to an argument that would not evaluate in a finite time will also not evaluate in a finite time.
 
+But what about functions of multiple alguments? Let's start with the two-argument case. In the simplest case, the function can only deliver a result if both arguments are available. But consider the multiplication function on the natural numbers: if it is known that the first argument is zero, it doesn't even inspect the second one, so it yields a result even if evalution of the second argument would never stop. If you have two functions of the same arguments, and it is known that their results agree when both halt, we have an operation of "concurrent evaluation" f|g: it starts evaluation in parallel and yield whichever computes first. In this manner using the fact that multiplication is commutative, we can concurrently evaluate multiplication and its argument reversed form. Then we'll obtain a function that halts not only when its arguments halt, but also if any of its arguments evaluates to zero.
 
+We need an algebraic framework enabling such reasoning.
 
- a b : Nat'
----------------
- f(a,b) : Nat'
-
- x : X   {f(x), g(x)}
--------------------
-   f|g : Y
-   
-```
-
-§ Fields with partially defined addition
-----------------------------------------
+§ Interlude: Pointed Sets as Generalised Vector Spaces
+------------------------------------------------------
 
 Classically, a field `F` is a set with two commutative monoidal operations called addition (`+`) and multiplication (`*`) respectively, so that each element has an additive inverse, each element besides 0 (the empty sum) has multiplicative inverse, and addition distributes over multiplication. It is additionally requred that empty product 1 is distinct from the empty sum 0.
 
@@ -62,24 +47,39 @@ A x B x C = A + B + C + AB + BC + CA + ABC
 ...
 ```
 
-
-
-
-§ Category of Sets and Partial Maps seen as Vect_F1
----------------------------------------------------
-
-In computer science, each well-typed programming language "L" defines a category of data types and well-formed programs as maps between them. Due to halting problem, each language either misses some computable maps (i.e. some of the computable maps cannot be expressed in the given language), or allows some well-typed programs that never yield a result in some cases (i.e. never "halt"), in the latter case one has to do with a category of sets and partial maps between them.
-
-The category of sets and maps functions can be seen as a category of pointed sets and with point-preserving (total) maps. It is, sets are augmented with additional "sticky element" `⊥` and programs that never halt are formally assumed to return the "non-value" `⊥`. The "stickiness", means that each map returns `⊥` when applied to `⊥`: a function applied to an argument that would not evaluate in a finite time will also not evaluate in a finite time.
-
-But what about functions of multiple alguments? Let's start with the two-argument case. In the simplest case, the function can only deliver a result if both arguments are available. But consider the multiplication function on the natural numbers: if it is known that the first argument is zero, it doesn't even inspect the second one, so it yields a result even if evalution of the second argument would never stop. If you have two functions of the same arguments, and it is known that their results agree when both halt, we have an operation of "concurrent evaluation" f|g: it starts evaluation in parallel and yield whichever computes first. In this manner using the fact that multiplication is commutative, we can concurrently evaluate multiplication and its argument reversed form. Then we'll obtain a function that halts not only when its arguments halt, but also if any of its arguments evaluates to zero.
-
-We need an algebraic framework enabling such reasoning:
-
-
-
-
-§ Partial Horn Theories
------------------------
-
+§ A First Approximation: Partial Horn Theories
+----------------------------------------------
 The eminent paper of Palmgren and Vickers “Partial Horn Theories and Cartesian Categories” defines a logic where
+
+The proposition x = x not trivial but means x is defined, which is not always the case. Can use equational conditions to derive other equational conditions incl welldefinedness of some operation.
+
+§ The Common Framework
+----------------------
+
+
+Algebraic theories with the linearity restriction (every variable used exactly once in the conclusion) and depndent sorts: for any positive integer number of vectors (variables earlier in the context or functions of them) `x,..,z`of the same type we have a type Span{x,..,z} -- a vector space spanned by `x,..,z`. May have multiple outcomes, possibly dependent on the premises. Over F1 e : Span(x//z) is only possible if all nonzero elements are equal, and there is at least one nonzero element. So, it essentlally boils down to equality over the type. (TODO: Why any comonoid over F1 commutes with all other operations, and is in particular a cocommutative comonoid.)
+
+```
+ a b : Nat'
+------------
+    ab
+
+ a b : Nat'   {a, zero}
+------------------------
+         {ab}
+
+ a b : Nat'   {b, zero}
+------------------------
+         {ab}
+
+
+
+ a b : Nat'
+---------------
+ f(a,b) : Nat'
+
+ x : X   {f(x), g(x)}
+-------------------
+   f|g : Y
+   
+```
