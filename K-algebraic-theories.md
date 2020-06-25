@@ -83,3 +83,10 @@ Algebraic theories with the linearity restriction (every variable used exactly o
    f|g : Y
    
 ```
+
+
+TODO: Why fields, not only commutative rings?
+
+TODO: What's the connection to spectra?
+
+TODO: Is there a connection to linear logic?
