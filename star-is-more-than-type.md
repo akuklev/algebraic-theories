@@ -1,7 +1,7 @@
 The `*` is more than type, `(→)` is more than function.
 =====================================================
 
-We present a sketch of an extension of the Higher Homotopy Type Theory (HOTT) by first-class notions of Reedy categories explicit polymorphism, so as to allow to handle simplicial and similar types, and handle higher categorical objects and large categories neatly.
+We present a sketch of an extension of the Higher Homotopy Type Theory (HOTT) by first-class notions of Reedy categories and explicit polymorphism, so as to allow to handle simplicial and similar types, and handle higher categorical objects and large categories neatly.
 
 § Introduction
 --------------
