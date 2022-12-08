@@ -1,7 +1,11 @@
-The `*` is more than type, `(→)` is more than function.
-=====================================================
+The `*` is more than type
+=========================
 
-We present a sketch of an extension of the Higher Homotopy Type Theory (HOTT) by first-class notions of Reedy categories and explicit polymorphism, so as to allow to handle simplicial and similar types, and to handle higher categorical objects and large categories neatly.
+We propose (a sketch of) an extension of the Higher Homotopy Type Theory (HOTT) by a first-class notion of Reedy categories and parametric quantifiers enabling neat handling of higher categorical objects and naturally occuring large categories. This extension encompases simplicial types and other Reedy presheaf types without reccuring to any kind of non-univalent equality.
+
+By introducing an additional notion of generalized inductive-inductive types it will be also possible to encompass bidirectionally presentable domain-specific type theories as inductive types and develop functorial semantics for their models, thus extending the notion of generalized algebraic theories a step further. In particular the type-theoretic definition of weak (Grothendieck-Maltsiniotis) ω-categories by E. Finster, S. Mimram et al. turns out to be an extended algebraic definition.
+
+This work heavily builds upon (mostly unpublished) ideas of C. McBride.
 
 § Introduction
 --------------
