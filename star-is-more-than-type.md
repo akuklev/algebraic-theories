@@ -1,9 +1,9 @@
 The `*` is more than type
 =========================
 
-We propose (a sketch of) an extension of the Higher Homotopy Type Theory (HOTT) by a first-class notion of Reedy categories and parametric quantifiers enabling neat handling of higher categorical objects and naturally occuring large categories. This extension encompases simplicial types and other Reedy presheaf types without reccuring to any kind of non-univalent equality.
+We propose (a sketch of) an extension HOCC of the Higher Observational Type Theory (HOTT) by a first-class notion of Reedy categories and parametric quantifiers enabling neat handling of higher categorical objects and naturally occuring large categories. This extension encompases simplicial types and other Reedy presheaf types without reccuring to any kind of non-univalent equality.
 
-By introducing an additional notion of generalized inductive-inductive types it will be also possible to encompass bidirectionally presentable domain-specific type theories as inductive types and develop functorial semantics for their models, thus extending the notion of generalized algebraic theories a step further. In particular the type-theoretic definition of weak (Grothendieck-Maltsiniotis) ω-categories by E. Finster, S. Mimram et al. turns out to be an extended algebraic definition.
+In this framework, it will be possible to introduce the notion of extended inductive types (a further generalization of quotient inductive-inductive types) to encompass bidirectionally presentable domain-specific type theories and develop functorial semantics for their models, thus extending the notion of generalized algebraic theories a step further. In particular the type-theoretic definition of weak (Grothendieck-Maltsiniotis) ω-categories by E. Finster, S. Mimram et al. turns out to be an extended algebraic definition.
 
 This work heavily builds upon (mostly unpublished) ideas of C. McBride.
 
@@ -41,18 +41,18 @@ In this work we want to introduce inductive types indexed over more general enti
 
 We be able to define various very useful indices:
 - The index CatCarrier so that `[C : CatCarrier → *] ≡ [C.Ob : *, C.Mor : Ob → Ob → *]`;
-- For various definitions of n-Categories (globular, simplicial, etc) the index `nCatCarrier[n]` so that
+- For each notion of n-categories (cubical, simplicial, etc) the index `nCatCarrier[n]` so that
 ```
   [C : CatCarrier → *] ≡ [C.Cell(0) : *, C.Cell(1) : Ob → Ob → *, C.Cell(2) : ···,...C.Cell(n) : ··· ]
 ```   
-  therefore n-Categories and n-Functors between them could be defined generically for all n. 
-- The indices Δ⁺ and Δ such that parameters `[SST : Δ⁺ → *]` and `[ST : Δ → *]` will correspond precisely to semi-simplicial and simplicial types respectively. This way it will be possible to define ω-categories and various other interesting objects.
+  allowing to define n-categories and n-functors between them generically for all n. 
+- The indices Δ⁺ and Δ such that typeformers satisfying the signatures `Δ⁺ → *` and `Δ → *` will correspond precisely to semi-simplicial and simplicial types respectively, which allows to define ω-categories and various other interesting objects.
 
-We will also introduce a notion of generalized inductive types (indexed by an index defined mutually with the type itself). We will show that bidirectionally presentable type theories such as the domain-specific type theories CaTT (cf. Globular weak ω-categories as models of a type theory, by E. Finster, S. Mimram) and virtual equipment type theory (VETT) that provides a semantic model for formal category theory can be implemented as generalized inductive types.
+We will also introduce a notion of extended inductive types (indexed by an index defined mutually with the type itself). We will show that bidirectionally presentable type theories such as the domain-specific type theories CaTT (cf. Globular weak ω-categories as models of a type theory, by E. Finster, S. Mimram) and virtual equipment type theory (VETT) that provides a semantic model for formal category theory can be implemented as generalized inductive types.
 
 
-§ Signatures
-------------
+§ Signatures and parametric polymorphism
+----------------------------------------
 
 Signatures play the role of types for polymorphy parameters of functions and typeformers, as well es for indices of type formers.
 
