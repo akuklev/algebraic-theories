@@ -8,7 +8,7 @@ We present a sketch of an extension of the Higher Homotopy Type Theory (HOTT) by
 
 In his Topos Institute Lecture “Cats and Types: Best Friends?“ C. McBride presented a yet unpublished idea of inductive types that are simultaneously inductively defined categories, associative and directed by construction.
 
-Extending this idea of we propose to extend the by a new notion parallel to types: indices. Mathematically indices correspond to Reedy Categories and indexed inductive types on them are precisely Type-valued presheaves on these categories.
+Extending this idea of we propose to extend the HOTT by a new notion parallel to types: indices. Mathematically indices correspond to Reedy Categories and indexed inductive types on them are precisely Type-valued presheaves on these categories.
 
 In the original HOTT, only the type formers manifestly differentiate between indexes and parameters. In our extension functions and constructors will be manifestly differentiate beween arguments `(\arg : type)` and parameters `[\p : signature]`. Indices cannot play the role of a type, but are used in signatures.
 
