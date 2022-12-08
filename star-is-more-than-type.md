@@ -40,10 +40,10 @@ The signature of the typeformer `NatVec` is written as `[Nat] → *`.
 In this work we want to introduce inductive types indexed over more general entities than inductive types themselves. We'll call these entities indexes. Indexes are essentially inductive types carrying an aditional structure of a Reedy-category. We built upon an unpublished idea of Conor McBride presented in his Topos Institute Lecture [“Cats and Types: Best Friends?“](https://youtu.be/05IJ3YL8p0s). The typeformers satifying signature `I → *` for an index `I` will semantically correspond to type-valued presheaves on `I` as Reedy-category.
 
 We be able to define various very useful indices:
-- The index CatCarrier so that `[C : CatCarrier → *] ≡ [C.Ob : *, C.Mor : Ob → Ob → *]`;
+- The index CatCarrier so that `[\C : CatCarrier → *] ≡ [\C.Ob : *, \C.Mor : Ob → Ob → *]`;
 - For each notion of n-categories (cubical, simplicial, etc) the index `nCatCarrier[n]` so that
 ```
-  [C : CatCarrier → *] ≡ [C.Cell(0) : *, C.Cell(1) : Ob → Ob → *, C.Cell(2) : ···,...C.Cell(n) : ··· ]
+  [\C : CatCarrier → *] ≡ [\C.Cell(0) : *, \C.Cell(1) : Ob → Ob → *, \C.Cell(2) : ···,...\C.Cell(n) : ··· ]
 ```   
   allowing to define n-categories and n-functors between them generically for all n. 
 - The indices Δ⁺ and Δ such that typeformers satisfying the signatures `Δ⁺ → *` and `Δ → *` will correspond precisely to semi-simplicial and simplicial types respectively, which allows to define ω-categories and various other interesting objects.
