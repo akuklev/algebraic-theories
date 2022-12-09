@@ -363,7 +363,7 @@ Finally, for each `n` we can define the (n + 1)-category of n-categories and (n,
   ... realization
 ```
 
-We are unaware of any other foundational framework able to handle categories that naturally. We conjecture that within this approach one would eventially be able to formalize the whole corpus of [ncatlab.org].
+We are unaware of any other foundational framework able to handle categories that naturally. We conjecture that within this approach one would eventially be able to formalize the whole corpus of http://ncatlab.org.
 
 ***
 
