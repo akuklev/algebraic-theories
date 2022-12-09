@@ -52,7 +52,7 @@ There is also a notion of inductive types indexed over an other inductive type. 
 
 The signature of the typeformer `NatVec` is written as `[Nat] → *`.
 
-In this work we want to introduce inductive types indexed over more general entities than inductive types themselves. We'll call these entities indexes. Indexes are essentially inductive types carrying an aditional structure of a Reedy-category. We built upon an unpublished idea of Conor McBride presented in his Topos Institute Lecture [“Cats and Types: Best Friends?“](https://youtu.be/05IJ3YL8p0s). The typeformers satifying signature `I → *` for an index `I` will semantically correspond to type-valued presheaves on `I` as Reedy-category.
+In this work we propose to introduce inductive types indexed over more general entities than inductive types themselves. We will call these entities indexes. Indexes are inductive types carrying an additional correct by construction structure of a Reedy-category. We built upon an unpublished idea of Conor McBride presented in his Topos Institute Lecture [“Cats and Types: Best Friends?“](https://youtu.be/05IJ3YL8p0s). The typeformers satifying signature `I → *` for an index `I` will semantically correspond to type-valued presheaves on `I` as Reedy-category.
 
 We be able to define various very useful indices:
 - The index CatCarrier so that `[\C : CatCarrier → *] ≡ [\C.Ob : *, \C.Mor : Ob → Ob → *]`;
