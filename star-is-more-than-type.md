@@ -1,7 +1,7 @@
 The `*` is more than type
 =========================
 
-We propose (a sketch of) an extension HOCC of the Higher Observational Type Theory (HOTT) by a first-class notion of Reedy categories and parametric quantifiers enabling neat handling of higher categorical objects and naturally occuring seemingly large categories. This extension encompases simplicial types and other Reedy presheaf types without reccuring to any kind of non-univalent equality.
+We propose (a sketch of) an extension HOCC of the Higher Observational Type Theory (HOTT) by a first-class notion of Reedy categories and parametric quantifiers enabling natural handling of higher categorical objects and naturally occuring seemingly large categories. This extension encompases simplicial types and other Reedy presheaf types without reccuring to any kind of non-univalent equality.
 
 In this framework, it will be possible to introduce the notion of extended inductive types (a further generalization of quotient inductive-inductive types) to encompass bidirectionally presentable domain-specific type theories and develop functorial semantics for their models, thus extending the notion of generalized algebraic theories a step further. In particular the type-theoretic definition of weak (Grothendieck-Maltsiniotis) ω-categories by E. Finster, S. Mimram et al. turns out to be an extended algebraic definition.
 
