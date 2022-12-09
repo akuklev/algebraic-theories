@@ -244,14 +244,15 @@ Here are some invalid ones:
 
 There are two operations or signatures:
 - specialization of signature to a given universe `U` is a type obtained by replacing all occurences or `*` by `U`.
-- generalization of signature 𝔖 by a signature 𝔅 is a new signature, where one particular strictly-positive occurence of `*` by `(𝔅 -> *)`, which corresponds to transferring a construction from a universe to a presheaf valued in this universe.
+- generalization of signature 𝔖 by a signature 𝔅 is a new signature, where one particular strictly-positive occurence of `*` by `(𝔅 → *)`, which corresponds to transferring a construction from a universe to a presheaf valued in this universe.
 
-In general, the lifting operator has three parameters besides the expression being lifted:
+Since (higher) topos structure is preserved by forming presheaves, in general, the lifting operator has four parameters besides the expression being lifted:
 - a signature 𝔖,
-- a universe `U`, and
+- a universe `U`,
+- a signature 𝔊 that generalizes 𝔖,
 - a larger universe `U' ⊃ U`
 
-Lifting operator checks that the expression being lifted satisfies the type obtained by specializing 𝔖 to U, and yields an expression of the type obtained by specializing 𝔖 to U'.
+Lifting operator checks that the expression being lifted satisfies the type obtained by specializing 𝔖 to U, and yields an expression of the type obtained by specializing 𝔊 to U'. The ability to replace any `*` in a strictly-positive position of signature by `(𝔅 → *)` for any signature 𝔅 is precisely what we mean by “`*` is more than Type”. We'll discuss that in depth in the section about handling categories below.
 
 
 § Parametric quantifiers
@@ -283,117 +284,91 @@ we would be able to transport it to larger universes U'.
 
 Working directly with polymorphic typeformers and functions/lemmas is a syntactic sugar over the core HOCC in the very same way as the von Neumann-Gödel-Bernays set-and-class theory NBG is a syntactic sugar on (conservative extension of) its core set theory ZFC. Being able to speak about polymorphic typeformers and functions/lemmas corresponds to being able to speak about classes. In particular, both provide a language to express constructions applicable to all groups, all categories and so on.
 
-§ Presheaf lifting
-------------------
-
-**Abstraction rule:**
-Abstraction rule is the only rule of HOCC that is not valid for expressions in any context.
-
-Given a polymorphic lemma/construction of signature  or a polymorphic construction is equilvalent to its relativization to a fresh universe `U` in the empty context.
-
-
-```
-#Inductive SmallPointedTypes[\I : CatCarrier]
-  PointedType(\T : 𝒰, \p : T) : SmallPointedTypes[Ob]
-  PointedFunction(\X \Y : 𝒰, \x : X, \y : Y, f : (X → Y), pointedness : ( f(x) = y ))
-  : SmallPointedTypes[Mor][(Src ↦ PointedType(X, x); Tgt ↦ PointedType(Y, y)]
-```
-
-
-```
-#Inductive PointedTypes[\I : CatCarrier]
-  PointedType(\T : 𝒰, \p : T) : SmallPointedTypes[Ob]
-  PointedFunction(\X \Y : 𝒰, \x : X, \y : Y, f : (X → Y), pointedness : ( f(x) = y ))
-  : SmallPointedTypes[Mor][(Src ↦ PointedType(X, x); Tgt ↦ PointedType(Y, y)]
-```
-§ Presheaf lifting
-------------------
-
-
-The point of “* is more than Type” lies in the property that any structure on the carrier of the signature `[C : I → *]` can be automatically lifted to the carrier of the signature `[C :  I → ((tsig) → *)]` where `tsig` is an arbitrary typeformer signature. That corresponds to the property of elementory higher topos structure to be preserved under building presheaves.
-
 
 § Handling Categories
 ---------------------
 
-Рассмотрим категорию как структуру на носителе
+Let's consider categories as structures of the form
 ```
-#Structure Cat[Ob : *, Mor : Ob → Ob → *]:
-  id[T : Ob] : Mor[T, T]
-  compose[X Y Z : Ob] : Mor[X, Y] → Mor[Y, Z] → Mor[X, Y]
+#Structure Cat[\Ob : *, \Mor : Ob → Ob → *]:
+  id[\T : Ob] : Mor[T, T]
+  compose[\X \Y \Z : Ob] : Mor[X, Y] → Mor[Y, Z] → Mor[X, Y]
   ... axioms
 ```
-  
-Определим
+
+As we explained in depth above, we can define an index `CatCarrier` so that `Cat` can be seen as a structure endowing a carrier adhering to the signature `C : CatCarrier → *`:
 ```
-#Index CatCarrier:
-  Ob
-  Mor
-  [Hom] 〈src| [Ob]
-  [Hom] 〈tgt| [Ob]
-```
-Теперь носитель категории можно записать просто как `CatCarrier → *`:
-```
-#Structure Cat[C : CatCarrier → *]:
+#Structure Cat[\C : CatCarrier → *]:
   id[T : C.Ob] : C.Mor[T, T]
   compose[X Y Z : C.Ob] : C.Mor[X, Y] → C.Mor[Y, Z] → C.Mor[X, Y]
-  # axioms
+  ... axioms
 ```
-  
-Это даёт нам целых две новых возможности!
 
-Во-первых, без этой штуки мы вообще не могли выразить носитель высхых категорий! У вего веть есть не только `C.Ob = C.Cell(0) и C.Mor = C.Cell(1)`, но и ячейки высших порядков до бесконечности.
+In mathematics we frequently work with seemingly large categories of structured types, like category of all groups or all rings. 
+In simple categories, `Mor[\src : Ob, tgt : Ob] : *` are just types, doubly indexed by `Ob`. In categories of structured objects they are parametrized by carriers and indexed by structures of their source and target:
+```
+Mor[\X \Y : *][\src : Group[X], \tgt : Group[Y]]
+```
 
-А во-вторых, это позволяет нам работать с осмысленной разновидностью large категорий: категорий множеств, оснащённых структурой. Скажем, категории всех групп.
+It looks quite monstrously, but we really can define categories of structured types without without any special gadgets:
+```
+#Structure CatOfStructuredTypes[
+  \Ob : * -> *,
+  \Mor : (SrcCarrier : *) → (TgtCarrier : *)
+   → (SrcStructure : S[SrcCarrier])
+   → (TgtStructure : S[TgrCarrier])
+   → *]
+... realization
+```
 
-Структура группы `Group[T : *]` может рассматриваться как функтор `Group : * -> *`. Сигнатура больших категорий монструозна:
+Now we could define the category of all groups as an instance of `CatOfStructuredTypes[\Ob: Group, \Mor: GroupHomomorphism]`. If one specializes the quite complicated object to a fixed universe `U`, one obtains type isomorphic to the simple category `Cat[\Ob: Σ(T : U) Group[T], \Mor : SmallGroupHomomorphism]` of `U`-small groups. Thus, such complicated objects are in the fact quite amenable to work with considering specialization and lifting.
+
+By using indexes (CatCarrier in particular), we wrap up the quite monstrous signature of `CatOfStructuredTypes`:
 ```
-#Structure CatOfStructuredSets[Ob : * -> *,
- Mor : (SrcCarrier : *) → (TgtCarrier : *)
- → (SrcStructure : S[SrcCarrier])
- → (TgtStructure : S[TgrCarrier])
- → *]
+#Structure CatOfStructuredTypes[\С : CatCarrier → (* → *)].
 ```
-Скажем категория всех групп это структура типа `CatOfStructuredObjects[Ob: Group, Mor: GroupHomomorphism]`
-С использованием индекстного типа `CatCarrier` возникает возможность записать всё это куда проще:
+
+In fact, with generalized (presheaf) lifting we can dispense with defining `CatOfStructuredTypes` altogether. We can just plug the typeformer of the group structure `Group : * → *` into the spot where `Ob : *` is required, and the whole signature and everything else adjusts automagically. In fact we could use structures of more complicated carriers than just a type. For instance we could define the category of all categories.. well, almost. Because categories don't actually form a category, they form a 2-category.
+
+Thankfully, our approach opens the road for defining carriers of n-categories uniformly:
 ```
-#Structure CatOfStructuredSets[\С : CatCarrier  → (* → *)].
+#Index nCatCarrier(\n : Nat)
+   Cell(\m : Fin[n]) : nCatCarrier
+   ... dependency arrows
 ```
-Вообще-то мы всегда можем заменить у полиморфной структуры носитель c `[I → *]` на `[I → (* → *)]` и даже на `[I → ((J → *) → *)]` — это следует из того, что вся структура высшего топоса переносится на предпучки и пучки на этом топосе (и, как обычно, леммы Йонеды). Машинерия по формулированию всех сигнатур методов и всех аксиом структуры может быть полностью механизирована, в результате нам не нужно отдельной структуры `CatOfStructuredSets`, мы можем просто сказать что * is more than Type, и определив лишь структуру `Cat[С : CatCarrier  →]` за бесплатно декларировать её инстансы
+
+Then one can uniformoly define the n-categories themselves:
 ```
-#Define Grp : Cat[C.Ob: Group, C.Mor: GroupHomomorphism]
+#Structure nCat[\n : Nat][\С : CatCarrier(n) → *] 
   ... realization
-  
-#Define Rng : Cat[C.Ob: Ring, C.Mor: RingHomomorphism]
- ... realization
 ```
 
-Больше того, если мы определим также n-категории
-```
-#Structure nCat[\n : Nat][\С : CatCarrier[n]  → *] 
-  ... realization
-```
-такие что `Cat ≅ nCat[1]`, и nFunctor'ы между ними
+so that `Cat ≅ nCat[1]`. Then one can also define n-functors between n-categories
 ```
 #Structure nFunctor[\n : Nat][\С : CatCarrier[n']]
   ... realization
 ```
 
-такие что
+so that
 ```
   Cat ≅ nFunctor[1][Cell(0)]
   Functor ≅ nFunctor[1][Cell(1)]
   NatTrans ≅ nFunctor[1][Cell(2)]
 ```
-Функторы n-ного уровня образуют категорию n'-го уровня
+
+Finally, for each `n` we can define the (n + 1)-category of n-categories and (n, m)-functors between them.
 
 ```
 #Define nCAT(\n) : nCat[n'][nFunctor[n]]
   ... realization
 ```
 
-В частности обычные категории, функторы между ними и естественные образования между ними образуют 2-категорию nCAT(1).
+We are unaware of any other foundational framework able to handle categories that naturally. We conjecture that within this approach one would eventially be able to formalize the whole corpus of [ncatlab.org].
 
+***
+
+PART II
+=======
 
 § Extended Inductive Types and Extended Algebraic Theories
 -------------------------------------------------------------
@@ -447,8 +422,8 @@ Synthetic Expr:
 
 ...
 
-§ Conclusion
-------------
+§ Conclusion and Future Work
+----------------------------
 
 Мы подобрались очень близко к тому, чтобы иметь унивалентную (с равенством здорового человека и без всякой strict equality) вычислительную теорию типов, совместимую с аксиомой выбора, и при этом достаточно выразительную, чтобы в ней существовали синтетические типы для всех потребных формализованных языков, можно было make precise sense of macrocosm-microcosm principle для алгебраических теорих, можно было формализовать весь ncatlab вместе с SGA, EGA и Stacks Project, удобно было работать с естественно возникающими большими категориями, можно было формализовать вещественные числа вместе с конструктивным анализом, и при этом в ней работало eating itself по схеме Gentle art of levitation, и всё это было совместимо с аксиомой выбора.
 
