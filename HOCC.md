@@ -3,7 +3,7 @@ Towards Higher Observational Calculus of Constructions
 
 We propose (a sketch of) an extension HOCC of the Higher Observational Type Theory (HOTT) by parametric quantifiers, a first-class notion of Reedy categories and inductive type families indexed and fibered above them enabling flawless handling of higher categorical objects and naturally occuring seemingly large categories. This extension provides simplicial types and other Reedy presheaf types without reccuring to any kind of non-univalent equality.
 
-Inductive type families indexed and fibered over simultaneously defined Reedy categories correspond precisely to bidirectional presentations of dependent type theories and allow to develop functorial semantics of their models. This justifies viewing type-theoretic presentations of weak ω-categories (by E. Finster, S. Mimram et al.) and virtual equipments (by M. New, D. Licata) as extended algebraic definitions.
+Purely inductive type families indexed and fibered over simultaneously defined Reedy categories correspond precisely to bidirectional presentations of dependent type theories and allow to develop functorial semantics of their models. This justifies viewing type-theoretic presentations of weak ω-categories (by E. Finster, S. Mimram et al.) and virtual equipments (by M. New, D. Licata) as extended algebraic definitions.
 
 This work heavily builds upon (mostly unpublished) ideas of C. McBride.
 
@@ -371,6 +371,19 @@ We are unaware of any other foundational framework able to handle categories tha
 
 PART II
 =======
+
+§ What's so nice about algebraic theories?
+------------------------------------------
+
+Algebraic theories are very well understood. Definition of an (possibly multisorted) algebraic theory is a description of a finite-product category in terms of generators and relations, models are given by functors on that category, homomorphisms between models are given by natural transformations. Thus, models and homomorphisms between them form a category themselves.
+
+For a single-sorted algebraic theory **Alg** one can always construct the purely inductive type `FreeAlg[T : *]` of free algebras on the set `T` of generators, and its quotients, i.e. models of **Alg** given in terms of generators and relations. The `FreeAlg[Fin[n]]` is guaranteed to be countable and have verifiable equality, that is this type is the syntactic model of the theory and consists of valid exressions with variables `n` in the language of the theory `Alg`. The free algebra on empty set of generators is the initial object in the category of models. This carries over to multi-sorted algebraic theories.
+
+For every algebraic theory **Alg** one can define a derived theory called cosmification of **Alg**. One can define a notion of generalized models (and their homomorphisms) of **Alg** in every model of its cosmification, the notions of model homomorphism . For example, a monoid object in a multicategory. The category of models of **Alg** and carries structure of the cosmification of **Alg** and the same applies to categories of generalized models in any cosmification of **Alg** which is known as microcosm-macrocosm principle.
+
+We claim to obtain analogous results for extended algebraic theories given as bidirectionally presented dependent type theories, which can be seen as descriptions of weak model categories in terms of generators and relations.
+
+
 
 § Extended Inductive Types and Extended Algebraic Theories
 -------------------------------------------------------------
