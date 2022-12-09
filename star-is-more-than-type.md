@@ -52,7 +52,7 @@ There is also a notion of inductive types indexed over an other inductive type. 
 
 The signature of the typeformer `NatVec` is written as `[Nat] → *`.
 
-In this work we propose to introduce inductive types indexed over more general entities than inductive types themselves. We will call these entities indexes. Indexes are inductive types carrying an additional correct by construction structure of a Reedy-category. We built upon an unpublished idea of Conor McBride presented in his Topos Institute Lecture [“Cats and Types: Best Friends?“](https://youtu.be/05IJ3YL8p0s). The typeformers satifying signature `I → *` for an index `I` will semantically correspond to type-valued presheaves on `I` as Reedy-category.
+In this work we propose to introduce inductive types indexed over more general entities than inductive types themselves. We will call these entities indexes. Indexes are inductive types endowed with a (correct by construction) structure of a Reedy-category. We built upon an unpublished idea of Conor McBride presented in his Topos Institute Lecture [“Cats and Types: Best Friends?“](https://youtu.be/05IJ3YL8p0s). The typeformers satifying signature `I → *` for an index `I` will semantically correspond to type-valued presheaves on `I` as Reedy-category.
 
 We be able to define various very useful indices:
 - The index CatCarrier so that `[\C : CatCarrier → *] ≡ [\C.Ob : *, \C.Mor : Ob → Ob → *]`;
@@ -102,6 +102,43 @@ When one defines a type indexed over an index with embeddings, one has to provid
 § The case of dependencies
 --------------------------
 
+Simple mathematical structures are defined above a carrier which is simply a type:
+```
+#Structure Monoid[\T : *]
+   unit : T
+   (∘)  : T → T → T
+   
+   associator(\x \y \z : T)
+   : (x ∘ y) ∘ z = x ∘ (y ∘ z)
+   
+   lt-unitor(\x : T) :
+   : unit ∘ x = x
+   
+   rt-unitor(\x : T) :
+   : x ∘ unit = x
+```
+
+More advanced mathematical structures seem not to have a single carrier:
+```
+#Structure Cat[\Ob : *, \Mor : Ob → Ob → *]
+   id[\T]        : T
+   (∘)[\A \B \C] : Mor[B, C] → Mor[A, B] → Mor[A, C]
+
+   lt-unitor[\A \B](\f : Mor[A, B]) :
+   : id[A] ∘ f = f
+   
+   rt-unitor[\A \B](\f : Mor[A, B]) :
+   : f ∘ unit = f
+
+   associator[\A \B \C \D](\f : Mor[A, B], \g : Mor[B, C], \h : Mor[C, D])
+   : (h ∘ g) ∘ f = h ∘ (g ∘ f)
+```
+
+For a multitude of reasond it is desirable to represent the cast the whole parameter
+list `[\Ob : *, \Mor : Ob → Ob → *]` as a single carrier `[C : CatCarrier → *]`.
+
+For this purpose we'll need an index type `CatCarrier` with left arrows:
+
 ...
 
 
@@ -139,7 +176,7 @@ Here are some invalid ones:
   Δ⁺ → Δ
 ```
 
-The point of * is more than Type lies in the property that any structure on the carrier of the signature `[C : I → *]` can be automatically lifted to the carrier of the signature `[C :  I → ((J → *) → *)]` where `J` is an arbitrary index. That corresponds to the property of elementory higher topos structure to be preserved under building presheaves.
+The point of * is more than Type lies in the property that any structure on the carrier of the signature `[C : I → *]` can be automatically lifted to the carrier of the signature `[C :  I → ((tsig) → *)]` where `tsig` is an arbitrary typeformer signature. That corresponds to the property of elementory higher topos structure to be preserved under building presheaves.
 
 § Indexes
 ---------
