@@ -56,7 +56,7 @@ In this work we propose to introduce inductive types indexed over more general e
 
 We be able to define various very useful indices:
 - The index CatCarrier so that `[\C : CatCarrier → *] ≡ [\C.Ob : *, \C.Mor : Ob → Ob → *]`;
-- For each notion of n-categories (cubical, simplicial, etc) the index `nCatCarrier[n]` so that
+- For each notion of n-categories (globular, simplicial, cubical, etc) the index `nCatCarrier[n]` so that
 ```
   [\C : CatCarrier → *] ≡ [
     \C.Cell(0) : *
@@ -152,9 +152,9 @@ Dependency arrows are exactly the same as embedding arrows except that they comp
 In particular, given a typeformer `T : CatCarrier → *`, we have
 ```
 T.Ob : *
-T.Mor : [∀(\i : ↓Mor) T[↑i]] → *
+T.Mor : [(T ↾ Mor)] → *
  ⇕
-T.Mor : [{Src, Tgt} → Ob] → *
+T.Mor : [\src : Ob, \tgt : Ob] → *
 ```
 
 Here is how one defines and an inductive type indexed by CatCarrier:
@@ -163,6 +163,28 @@ Here is how one defines and an inductive type indexed by CatCarrier:
   PointedType(\T : 𝒰, \p : T) : SmallPointedTypes[Ob]
   PointedFunction(\X \Y : 𝒰, \x : X, \y : Y, f : (X → Y), pointedness : ( f(x) = y ))
   : SmallPointedTypes[Mor][(Src ↦ PointedType(X, x); Tgt ↦ PointedType(Y, y)]
+```
+
+So far we only considered finite dependent indexes, let us consider an infinite one to illustrate the concept better.
+
+The canonical example of an infinite index is given by Natⱽ:
+```
+#Index Natⱽ:
+  0    : Natⱽ
+  (_') : Natⱽ → Natⱽ → Natⱽ
+  
+  [(\n)'].|Field(\m : Fin[m])⟩ : [m]
+  
+  |Field(_)⟩|Field(\n)⟩ : [n]
+```
+
+For a given `T : Natⱽ → *` the restriction `T ↾ n` is the dependent record
+```
+field(0) : T[0]
+field(1) : T[1][field(0)]
+field(2) : T[2][field(0)][field(1)]
+...
+field(n - 1) : T[n - 1][field(0)]...[field(n - 2)]
 ```
 
 § Signatures and parametric polymorphism
