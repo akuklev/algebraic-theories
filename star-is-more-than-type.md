@@ -217,7 +217,7 @@ Inductive definitions can be translated to codes (proper expressions inside the 
 𝒰 ⊂ 𝒰⁺ ⊂ 𝒰⁺⁺ ⊂ ···
 ```
 
-With this approach types and type families are defined by expressions of type 𝒰 (or 𝒰⁺⁽ⁿ⁾ for some fixed `n`), polymorphic types become functions on some sufficiently large universe. We seemingly do not need any signatures, everything involves only bona fide types. But consider the typeformer `List`, which now has the bona fide type `List : 𝒰 → 𝒰`. But how do we apply it to a type living in a higher universe 𝒰⁺? We need a lifting operator (↑) that to lift `List : 𝒰 → 𝒰` into `↑List : 𝒰⁺ → 𝒰⁺`. It turns out, lift operators must be indexed by the signatures of the type formers they lift, the source universe and the target universe. Thus the language of the signatures still must be a part of the core HOCC.
+With this approach types and type families are defined by expressions of type 𝒰 (or 𝒰⁺⁽ⁿ⁾ for some fixed `n`), polymorphic types become functions on some sufficiently large universe. We seemingly do not need any signatures, everything involves only bona fide types. But consider the typeformer `List`, which now has the bona fide type `List : 𝒰 → 𝒰`. But how do we apply it to a type living in a higher universe 𝒰⁺? We need a lifting operator (↑) that to lift `List : 𝒰 → 𝒰` into `↑List : 𝒰⁺ → 𝒰⁺`. It turns out, lift operators must be indexed by the signatures of the type formers they lift, the source universe and the target universe. Thus the language of the signatures still must be a part of the core HOCC, but fully polymorphic (i.e. without restriction to a particular universe) typeformers are emulated by functions on universes and lifting.
 
 So let us describe the language of typeformer signagures. A type former is either a simple type, or be polymorphic, or indexed, 
 
@@ -257,20 +257,60 @@ Lifting operator checks that the expression being lifted satisfies the type obta
 § Parametric quantifiers
 ------------------------
 
-In addition to the usual universal quantifier “for each” `∀(\x : X) Y[x]` HOCC has parametric quantifiers “for all (independently of their values)” we'll write `∀(\x :⁰ X) Y[x]`. There, 0 reflects the fact that `x` is allowed to be used exactly zero times in the body of the expression; it is only allowed to be used in type annotations.
+In addition to the usual universal quantifier “for each” `∀(\x : X) Y[x]` HOCC has parametric quantifiers “for all (independently of their values)” written as `⋂(\x : X) Y[x]`. Expressions of that type are inhabited by a special kind of lambda-abstractions:
+```
+ (\x :⁰ X) expr
+```
+The superscript zero 0 reflect to the fact that `x` is allowed to be used in the `expr` exactly zero times not counting usages in type annotations.
 
+When regarding to values, the ⋂-quantifier has more of an existential flavour:
+```
+c : ⋂(\length : Nat) Vec[T][length]
+```
+means that `c` is a `T`-vector of some length. The length exists, that's all we know, and it cannot be extracted.
 
-**Abstraction rule:**
-Abstraction rule is the only rule of HOCC that is not valid for expressions in any context.
+There are not much definable expressions of the type `∀(\T : U) List[T]`. Since `T` is an unknown type we cannot excibit any of its inhabitants. In fact it might be empty. So the only definable expression of this type is `(\T : U) ↦ Empty[T]` that produces an empty list of the given type. The variable `T` has only usages in type annotations, therefore this expression also typechecks against the type `⋂(\T : U) List[T]`.
 
-Given a polymorphic lemma/construction of signature  or a polymorphic construction is equilvalent to its relativization to a fresh universe `U`.
+Exactly for that reason it might be tempting to think that for any universe `U` the types `∀(\T : U) Y[T]` and `⋂(\T : U) Y[T]` are contain the same definable values, i.e. the type `∀(\T : U) Y[T]` can contain only constants of the type `Y[T]`. It can be shown to be false if we take `Y[T]` to be `U`. In this case the function `(\T : U) ↦ U` satisfies to the type `∀(\T : U) U`, but not `⋂(\T : U) U`.
 
+Now we're ready to state that fully polymorphic functions/lemmas (i.e. the ones where polymorphism is not restricted to a particular universe) are not a part of the core HOCC, but are emulated by functions/lemmas parametrically quantified on universes and lifting.
+
+We'll need a lifting operator for such functions/lemmas, that will be also signature indexed. Whenever we prove a statement
+```
+p : ⋂(\T : U) ∀(\m : Monoid[T]) something
+```
+we would be able to transport it to larger universes U'.
+
+Working directly with polymorphic typeformers and functions/lemmas is a syntactic sugar over the core HOCC in the very same way as the von Neumann-Gödel-Bernays set-and-class theory NBG is a syntactic sugar on (conservative extension of) its core set theory ZFC. Being able to speak about polymorphic typeformers and functions/lemmas corresponds to being able to speak about classes. In particular, both provide a language to express constructions applicable to all groups, all categories and so on.
 
 § Presheaf lifting
 ------------------
 
+**Abstraction rule:**
+Abstraction rule is the only rule of HOCC that is not valid for expressions in any context.
 
-The point of * is more than Type lies in the property that any structure on the carrier of the signature `[C : I → *]` can be automatically lifted to the carrier of the signature `[C :  I → ((tsig) → *)]` where `tsig` is an arbitrary typeformer signature. That corresponds to the property of elementory higher topos structure to be preserved under building presheaves.
+Given a polymorphic lemma/construction of signature  or a polymorphic construction is equilvalent to its relativization to a fresh universe `U` in the empty context.
+
+
+```
+#Inductive SmallPointedTypes[\I : CatCarrier]
+  PointedType(\T : 𝒰, \p : T) : SmallPointedTypes[Ob]
+  PointedFunction(\X \Y : 𝒰, \x : X, \y : Y, f : (X → Y), pointedness : ( f(x) = y ))
+  : SmallPointedTypes[Mor][(Src ↦ PointedType(X, x); Tgt ↦ PointedType(Y, y)]
+```
+
+
+```
+#Inductive PointedTypes[\I : CatCarrier]
+  PointedType(\T : 𝒰, \p : T) : SmallPointedTypes[Ob]
+  PointedFunction(\X \Y : 𝒰, \x : X, \y : Y, f : (X → Y), pointedness : ( f(x) = y ))
+  : SmallPointedTypes[Mor][(Src ↦ PointedType(X, x); Tgt ↦ PointedType(Y, y)]
+```
+§ Presheaf lifting
+------------------
+
+
+The point of “* is more than Type” lies in the property that any structure on the carrier of the signature `[C : I → *]` can be automatically lifted to the carrier of the signature `[C :  I → ((tsig) → *)]` where `tsig` is an arbitrary typeformer signature. That corresponds to the property of elementory higher topos structure to be preserved under building presheaves.
 
 
 § Handling Categories
