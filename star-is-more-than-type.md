@@ -259,7 +259,7 @@ T(〈Pre|) ↦ fst
 В частности обычные категории, функторы между ними и естественные образования между ними образуют 2-категорию nCAT(1).
 
 
-§ Generalized Inductive Types and Extended Algebraic Theories
+§ Extended Inductive Types and Extended Algebraic Theories
 -------------------------------------------------------------
 
 Чисто синтетические типы, такие как
