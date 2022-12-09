@@ -3,7 +3,7 @@ Towards Higher Observational Calculus of Constructions
 
 We propose (a sketch of) an extension HOCC of the Higher Observational Type Theory (HOTT) by parametric quantifiers, a first-class notion of Reedy categories and inductive type families indexed and fibered above them enabling flawless handling of higher categorical objects and naturally occuring seemingly large categories. This extension provides simplicial types and other Reedy presheaf types without reccuring to any kind of non-univalent equality.
 
-Inductive type families indexed and fibered over simultaneously defined Reedy categories correspond precisely to bidirectional presentations of dependent type theories and allow to develop functorial semantics of their models. This justifies viewing type-theoretic presentations of weak Grothendieck-Maltsiniotis ω-categories (by E. Finster, S. Mimram) and virtual equipments (by M. New, D. Licata) as extended algebraic definitions.
+Inductive type families indexed and fibered over simultaneously defined Reedy categories correspond precisely to bidirectional presentations of dependent type theories and allow to develop functorial semantics of their models. This justifies viewing type-theoretic presentations of weak ω-categories (by E. Finster, S. Mimram et al.) and virtual equipments (by M. New, D. Licata) as extended algebraic definitions.
 
 This work heavily builds upon (mostly unpublished) ideas of C. McBride.
 
