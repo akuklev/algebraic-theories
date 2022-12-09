@@ -28,10 +28,10 @@ Inductive types may also be polymorphic, i.e. have parameters. For example the t
 
 Here the type `List[T]` is declared to be a type freely generate by one non-recursive generator `Empty` satisfying type `List[T]` and a recursive generator `(head :: tail)` that makes a `List[T]` out of a `head : T` and `tail : List[T]` so one can generate lists by succesively appending elements to the `Empty` list. The set of possible values of  `List[T]` is therefore given by
 ```
-Empty,
-Empty :: x, 
-Empty :: x :: y,
-Empty :: x :: y :: z,
+Empty
+Empty :: x
+Empty :: x :: y
+Empty :: x :: y :: z
 ...
 ```
 for `x, y, z, ...` being of type `T`.
@@ -52,10 +52,10 @@ We be able to define various very useful indices:
 - For each notion of n-categories (cubical, simplicial, etc) the index `nCatCarrier[n]` so that
 ```
   [\C : CatCarrier → *] ≡ [
-    \C.Cell(0) : *,
-    \C.Cell(1) : Ob → Ob → *,
-    \C.Cell(2) : ···,
-    ...,
+    \C.Cell(0) : *
+    \C.Cell(1) : Ob → Ob → *
+    \C.Cell(2) : ···
+    ...
     \C.Cell(n) : ···
   ]
 ```   
