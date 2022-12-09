@@ -26,7 +26,15 @@ Inductive types may also be polymorphic, i.e. have parameters. For example the t
   (::)  : T → List[T] → List[T]
 ```
 
-Here the type `List[T]` is declared to be a type freely generate by one non-recursive generator `Empty` satisfying type `List[T]` and a recursive generator `(head :: tail)` that makes a `List[T]` out of a `head : T` and `tail : List[T]` so one can generate lists by succesively appending elements to the `Empty` list. The set of possible values of  `List[T]` is therefore given by `Empty, (Empty :: x), (Empty :: x :: y), (Empty :: x :: y :: z), etc` for `x, y, z, ...` being of type `T`.
+Here the type `List[T]` is declared to be a type freely generate by one non-recursive generator `Empty` satisfying type `List[T]` and a recursive generator `(head :: tail)` that makes a `List[T]` out of a `head : T` and `tail : List[T]` so one can generate lists by succesively appending elements to the `Empty` list. The set of possible values of  `List[T]` is therefore given by
+```
+Empty,
+Empty :: x, 
+Empty :: x :: y,
+Empty :: x :: y :: z,
+...
+```
+for `x, y, z, ...` being of type `T`.
 
 There is also a notion of inductive types indexed over an other inductive type. For example, consider the type of Nat-vectors indexed by their length:
 ```
