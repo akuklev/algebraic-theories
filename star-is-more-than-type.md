@@ -1,9 +1,9 @@
 The `*` is more than type
 =========================
 
-We propose (a sketch of) an extension HOCC of the Higher Observational Type Theory (HOTT) by a first-class notion of Reedy categories and parametric quantifiers enabling natural handling of higher categorical objects and naturally occuring seemingly large categories. This extension encompases simplicial types and other Reedy presheaf types without reccuring to any kind of non-univalent equality.
+We propose (a sketch of) an extension HOCC of the Higher Observational Type Theory (HOTT) by a first-class notion of Reedy categories and parametric quantifiers enabling natural handling of higher categorical objects and naturally occuring seemingly large categories. This extension provides simplicial types and other Reedy presheaf types without reccuring to any kind of non-univalent equality.
 
-In this framework, it will be possible to introduce the notion of extended inductive types (a further generalization of quotient inductive-inductive types) to encompass bidirectionally presentable domain-specific type theories and develop functorial semantics for their models, thus extending the notion of generalized algebraic theories a step further. In particular the type-theoretic definition of weak (Grothendieck-Maltsiniotis) ω-categories by E. Finster, S. Mimram et al. turns out to be an extended algebraic definition.
+This framework also allows to introduce the notion of extended inductive types (a further generalization of quotient inductive-inductive types) that embrace bidirectionally presentable domain-specific type theories and to develop functorial semantics for their models, thus extending the notion of generalized algebraic theories a step further. In particular the type-theoretic definition of weak (Grothendieck-Maltsiniotis) ω-categories by E. Finster, S. Mimram et al. turns out to be an extended algebraic definition.
 
 This work heavily builds upon (mostly unpublished) ideas of C. McBride.
 
@@ -67,8 +67,10 @@ We be able to define various very useful indices:
   ]
 ```   
   allowing to define n-categories and n-functors between them generically for all n. 
-- The indices Δ⁺ and Δ such that typeformers satisfying the signatures `Δ⁺ → *` and `Δ → *` will correspond precisely to semi-simplicial and simplicial types respectively, which allows to define ω-categories and various other interesting objects.
+- The indices Δ⁺ and Δ such that typeformers satisfying the signatures `Δ⁺ → *` and `Δ → *` will correspond precisely to semi-simplicial and simplicial types respectively, which allows to define ω-categories and various other interesting objects. In particular one covers the notion of very-dependent types as introduced by A. Kopylov[?].
 
+§ The case of degeneracies
+--------------------------
 
 § Signatures and parametric polymorphism
 ----------------------------------------
