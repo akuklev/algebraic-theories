@@ -147,7 +147,7 @@ For this purpose we'll need an index type `CatCarrier` with dependency arrows:
   [Hom].|Tgt⟩ : [Ob]
 ```
 
-Dependency arrows are exactly the same as embedding arrows except that they comply with inverse lexicographic ordering on the index, i.e. they are well-founded, all composable strings of dependency arrows are finite. For any index `I` and `\i : I` let `↓i : *` denote the type of dependency arrows from `i` to indices with no dependent arrows on them. The types ↓i come with a function `(↑_) : ↓i → I` mapping arrows to their target indices. Now given an indexed typeformer `T : I → *` we have `T[i] : [∀(\j : ↓i) T[↑j]] → *` for indices with nonempty `↓i` and `T[i] : *` otherwise.
+Dependency arrows are exactly the same as embedding arrows except that they comply with inverse lexicographic ordering on the index, i.e. they are well-founded, all composable strings of dependency arrows are finite. It is precisely this finiteness that allows us introduce a special restriction operator (↾): any indexed typeformer `T : I → *` and index `\i : I` the restriction (T ↾ i) denotes a dependent record type: its extractors are given by dependency arrows form `i` and map to their respective types as given by `T` and previous entries of the dependent record. Now given an indexed typeformer `T : I → *` we have `T[i] : [T ↾ i] → *`. For  indices with no dependent arrows, (T ↾ i) is the unit type, thus one has simply `T[i] : *.
 
 In particular, given a typeformer `T : CatCarrier → *`, we have
 ```
