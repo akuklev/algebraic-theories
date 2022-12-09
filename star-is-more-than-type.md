@@ -244,24 +244,26 @@ Here are some invalid ones:
 
 There are two operations or signatures:
 - specialization of signature to a given universe `U` is a type obtained by replacing all occurences or `*` by `U`.
-- generalization of signature 𝕾 by a signature 𝔅 is a new signature, where one particular strictly-positive occurence of `*` by `(𝔅 -> *)`, which corresponds to transferring a construction from a universe to a presheaf valued in this universe.
+- generalization of signature 𝔖 by a signature 𝔅 is a new signature, where one particular strictly-positive occurence of `*` by `(𝔅 -> *)`, which corresponds to transferring a construction from a universe to a presheaf valued in this universe.
 
 In general, the lifting operator has three parameters besides the expression being lifted:
-- a signature 𝕾,
+- a signature 𝔖,
 - a universe `U`, and
 - a larger universe `U' ⊃ U`
 
-Lifting operator checks that the expression being lifted satisfies the type obtained by specializing 𝕾 to U, and yields an expression of the type obtained by specializing 𝕾 to U'.
+Lifting operator checks that the expression being lifted satisfies the type obtained by specializing 𝔖 to U, and yields an expression of the type obtained by specializing 𝔖 to U'.
 
 
 § Parametric quantifiers
 ------------------------
 
-In addition to the usual 
+In addition to the usual universal quantifier “for each” `∀(\x : X) Y[x]` HOCC has parametric quantifiers “for all (independently of their values)” we'll write `∀(\x :⁰ X) Y[x]`. There, 0 reflects the fact that `x` is allowed to be used exactly zero times in the body of the expression; it is only allowed to be used in type annotations.
 
 
-**Abstraction principle:**
-Take a polymorphic lemma or a polymorphic construction, and specialize its signature to some universe `U`
+**Abstraction rule:**
+Abstraction rule is the only rule of HOCC that is not valid for expressions in any context.
+
+Given a polymorphic lemma/construction of signature  or a polymorphic construction is equilvalent to its relativization to a fresh universe `U`.
 
 
 § Presheaf lifting
