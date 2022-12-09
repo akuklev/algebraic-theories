@@ -24,9 +24,9 @@ The name of the type is called a typeformer. The typeformer `Nat` adheres to the
 𝒰 ⊂ 𝒰' ⊂ 𝒰'' ⊂ ···
 ```
 
-By requiring certain closedness properties for universes, one can ensure that each definable type eventually lands in a sufficiently large universe and all universes above it.
+By requiring an existance of a hierarchy of universes with certain closedness properties, one can ensure the metatheoretical property, that each definable type eventually lands in a sufficiently large universe and all universes above it.
 
-Inductive types may also be polymorphic, i.e. have parameters. For example the typeformer `List[T]` requires a typeformer `T` adhering to the signature `*`. In particular the typeformer `Nat` satisfies this signature: `Nat : *`, so one can generate the type `List[Nat] : *`, and therefore also the type `List[List[Nat]]` and so on. The typeformer `List` itself adheres to the signature `List : * → *` which means that it acts as a function on all sufficiently large universes. Closedness properties of universes guarantee precisely that for any finite set of typeformers, there will be a sufficiently large universe closed under their repeated application. Now let's write down the definition of the `List`:
+Inductive types may also be polymorphic, i.e. have parameters. For example the typeformer `List[T]` requires a typeformer `T` adhering to the signature `*`. In particular the typeformer `Nat` satisfies this signature: `Nat : *`, so one can generate the type `List[Nat] : *`, and therefore also the type `List[List[Nat]]` and so on. The typeformer `List` itself adheres to the signature `List : * → *` which means that it acts as a function on all sufficiently large universes. Now let's write down the definition of the `List`:
 ```
 #Inductive List[\T : *]
   Empty : List[T]
@@ -149,7 +149,7 @@ For this purpose we'll need an index type `CatCarrier` with dependency arrows:
 
 Dependency arrows are exactly the same as embedding arrows except that they comply with inverse lexicographic ordering on the index, i.e. they are well-founded, all composable strings of dependency arrows are finite. It is precisely this finiteness that allows us introduce a special restriction operator (↾): any indexed typeformer `T : I → *` and index `\i : I` the restriction (T ↾ i) denotes a dependent record type: its extractors are given by dependency arrows form `i` and map to their respective types as given by `T` and previous entries of the dependent record. Now given an indexed typeformer `T : I → *` we have `T[i] : [T ↾ i] → *`. For  indices with no dependent arrows, (T ↾ i) is the unit type, thus one has simply `T[i] : *.
 
-In particular, given a typeformer `T : CatCarrier → *`, we have
+In particular, given a typeformer `T : CatCarrier → * `, we have
 ```
 T.Ob : *
 T.Mor : [(T ↾ Mor)] → *
