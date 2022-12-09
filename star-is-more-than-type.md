@@ -187,6 +187,21 @@ field(2) : T[2][field(0)][field(1)]
 field(n - 1) : T[n - 1][field(0)]...[field(n - 2)]
 ```
 
+Thus, `T : Natⱽ → *` gives us precisely the so called very dependent types. A very-dependently typed sequence of such type `T` can be defined as follows:
+
+```
+#Coinductive DepSequence[\T : Natⱽ → *]:
+  head : T[0]
+  tail : DepSequenceTail[T, 1, (field(0) ↦ head)]
+
+ where
+
+#Coinductive DepSequenceTail[\T : Natⱽ → *][\i : Nat][\prefix : (T ↾ n)]:
+  head : T[i][prefix]
+  tail : DepSequenceTail[T, i', prefix ++ (field(i) ↦ head)]
+```
+
+
 § Signatures and parametric polymorphism
 ----------------------------------------
 
