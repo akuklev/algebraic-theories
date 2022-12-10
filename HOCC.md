@@ -396,12 +396,15 @@ For every algebraic theory **Alg** one can define a derived theory called cosmif
 
 Algebraic theories as presented are uncapable of embracing such structures as categories, toposes, polycategories, higher categories and so on, while there are descriptions of those theories extremely algebraic in their spirit. There are two known generalizations of algebraic theories (essentially algebraic theories EAT and generalized algebraic theories GAT) which are almost but not completely satisfactory. EATs have very nice semantics, but depart from algebraicity, GATs are very algebraic in their nature but don't have a straightforward functorial semantics in terms of natural structures.
 
-We think it is possible to develop a theory of extended algebraic theories (XAT) that embrace bidirectionally presented dependent type theories, which can be seen as descriptions of weak model categories in terms of generators and relations.
+We think it is possible to develop a theory of extended algebraic theories (XAT) that takes best of both worlds and embraces bidirectionally presented dependent type theories, which can be seen as descriptions of weak model categories in terms of generators and relations.
 
 
 
-§ Bidirectionally typed theories as pure inductive type families defined mutually with their index
---------------------------------------------------------------------------------------------------
+§ Bidirectional presentations of dependent type theories
+--------------------------------------------------------
+
+...
+
 <!--
 Чисто синтетические типы, такие как
 ```
