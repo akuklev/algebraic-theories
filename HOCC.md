@@ -200,8 +200,8 @@ It still remains to be worked out which additional machinery is required to work
 
 It also remains to be worked our how to provide codes for indexes and type families indexed over them so that we can mutually define type universes and index universes closed under them, and ensure the metatheoretical property that any type of our extended system eventually lands in a sufficiently large universe.
 
-§ Type Formers and Signatures
------------------------------
+§ Kinds and Universes
+---------------------
 
 Above we used a special type definition language to define inductive types, including polymorphic and indexed ones. As a result of type definition we obtain a typeformer (e.g. `Nat` and `List`) of a specific kind that looks like a type but is not exactly a type:
 ```
@@ -243,9 +243,8 @@ Prop ⊂ Prop⁺ ⊂ Prop⁺⁺ ⊂ ···
 
 The universe Prop⁺ and all higher universes in this hierarchy taken together with maps between their types as categories are in fact elementary toposes: (2) guarantees them to have subobject classifier, (3) guarantees them to have a natural number object, (3 + 5) guarantees them to have all finite limits `Σ(\x : X, \y : Y) f(x) = g(y)`, (5) makes them locally cartesian closed (`∀(\x : X) Y(x)`). All purely inductive types including `List[Nat]`, `List[List[Nat]]` and similar much more complicated ones land in the very first nontrivial universe `Prop⁺` since they are countable and discrete by construction which makes them isomorphic either to the type of natural numbers `Nat` or to a finite type `Fin(n)` which are already present in `Prop⁺`.
 
-We can develop a system of codes for all inductive and coinductive types definable in our type definition language and adjust the closedness requirements (3) and (4), to ensure the following metatheoretic property
-
-For any finite number of definable typeformers, there is a universe in the above hierarhcy, that contains them/is closed under applying them. 
+We can develop a system of codes for all inductive and coinductive types definable in our type definition language and adjust the closedness requirements (3) and (4), to ensure the following metatheoretic property:
+> For any finite number of definable typeformers, there is a universe in the above hierarhcy, that contains them/is closed under applying them. 
 
 * * *
 
