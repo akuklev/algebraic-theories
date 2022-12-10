@@ -64,7 +64,7 @@ We be able to define various very useful indices:
 § The case of degeneracies
 --------------------------
 
-One type one often encounters is the type of number sequences containing only finite number of nonzero terms. For many practical applications one needs to have an upper bound on the number of nonzero entries, because it cannot be calculated in predictable time if unknown even in case of integer number sequences; in case of real number sequences it is not computable at all since the check an unknown decimal fraction represents a zero requires an infinite number of steps. So we need an inductive type `FiniteVec[\T : *, \zero : T][\size-bound : NatBound]` of sequences parametrized by the type `T` of its terms, marked `zero : T` element of that type and indexed over an upper bound to a number of non-zero terms.
+One type one often encounters is the type of number sequences containing only finite number of nonzero terms. For many practical applications one needs to have an upper bound on the number of nonzero entries, because it cannot be calculated in predictable time if unknown even in case of integer number sequences; in case of real number sequences it is not computable at all since the check an unknown decimal fraction represents a zero requires an infinite number of steps. So we need an inductive type family `FiniteVec[\T : *, \zero : T] : NatBound → *` of sequences parametrized by the type `T` of its terms, marked `zero : T` element of that type and indexed over an upper bound to a number of non-zero terms.
 
 The index `size-bound` ist not just a natural number. We want `FiniteVec[T,0][n]` to be a subtype of `FiniteVec[T,0][m]` whenever `n < m` and we want trailing zeroes to be ignored, i.e. sequences `(x :: y :: z)` and `(x :: y :: z :: 0)` to be equal.
 
@@ -203,14 +203,51 @@ It also remains to be worked our how to provide codes for indexes and type famil
 § Type Formers and Signatures
 -----------------------------
 
-<<<
-The name of the type is called a typeformer. The typeformer `Nat` adheres to the signature `Nat : *` which means `Nat` belongs to some sufficiently large type universe 𝒰 and all universes above it: In type theory one cannot have _the_ universe 𝓤, the type of all types, as it would necessarily contain itself which leads to a contradiction. Instead, one resorts to speaking of _a_ universe being a type of types not pretending to contain all types. For each universe 𝒰 there is also a universe 𝒰⁺ that contains all inhabitants of 𝒰 plus the 𝒰 itself. Thus each universe generates a whole infinite cummulative hierarchy above itself:
+Above we used a special type definition language to define inductive types, including polymorphic and indexed ones. As a result of type definition we obtain a typeformer (e.g. `Nat` and `List`) of a specific kind that looks like a type but is not exactly a type:
 ```
-𝒰 ⊂ 𝒰⁺ ⊂ 𝒰⁺⁺ ⊂ ···
+Nat : *
+List : * → *
+Vec : * → Nat → *
 ```
 
-By requiring an existance of a hierarchy of universes with certain closedness properties, one can ensure the metatheoretical property, that each definable type eventually lands in a sufficiently large universe and all universes above it.
-<<<
+Unfortunatelly, in type theory we are not allowed to have the type `*` of all types, as it would necessarily contain itself which leads to a contradiction. There is no better alternative to having an separate “type system” of kinds for typeformers.
+
+A type former is either a simple type, a polymorphic one (parameters might themselves be of any kind), or an indexed one therefore valid typeformer kind is given by:
+- `*`
+- `index → kind`
+- `kind → kind`
+
+Here the signatures on the right hand side may depend on paramerers on the left hand side, and any normal type can be used as an index. Here are some examples of valid signatures:
+```
+  *
+  Nat → *
+  * → *
+  * → (Δ⁺ → *)
+  (\T : *) → Monoid[T] → *
+```
+
+While we cannot speak about _the type of all types_, one can very well speak about types containing some other types without pretending to contain all of them. Such types are called type universes. In particular, HOCC we postulate a distinghished type universe `Prop` that contains an isomorphic copy of each type `P` satisfying `∀(\x y\ : P) x = y`, it is each type with at most one element. Subsets of any type `T` have the form `{\x : T | P(x)}` for some `P : T → Prop`, i.e. the type `(T → Prop)` can be said to classify subsets of any type `T`. The universe `Prop` is said to be subset (or subobject) classifier. They type `Prop` has at least two distinct elements: the empty type 𝟘 and the unit type 𝟙 (the type with the unique inhabitant denoted `• : 𝟙`), and thus does not belong to itself.
+
+For each universe `U` we define `U⁺` to be the universe containing
+1) all inhabitants of `U`,
+2) the type `U` itself
+and is closed under
+3) forming a certain class† of inductive types, including dependent pairs `Σ(\x : X) Y(x)` for `X Y : U⁺`,
+4) forming a certain class† of behavioral types, including dependent functions `∀(\x : X) Y(x)` for `X Y : U⁺`,
+5) forming types of identifications `(a = b)` between inhabitants `a b : T` of their types `T : U`.
+
+Now one can generate a cumulative hierarchy of universes
+```
+Prop ⊂ Prop⁺ ⊂ Prop⁺⁺ ⊂ ···
+```
+
+The universe Prop⁺ and all higher universes in this hierarchy taken together with maps between their types as categories are in fact elementary toposes: (2) guarantees them to have subobject classifier, (3) guarantees them to have a natural number object, (3 + 5) guarantees them to have all finite limits `Σ(\x : X, \y : Y) f(x) = g(y)`, (5) makes them locally cartesian closed (`∀(\x : X) Y(x)`). All purely inductive types including `List[Nat]`, `List[List[Nat]]` and similar much more complicated ones land in the very first nontrivial universe `Prop⁺` since they are countable and discrete by construction which makes them isomorphic either to the type of natural numbers `Nat` or to a finite type `Fin(n)` which are already present in `Prop⁺`.
+
+We can develop a system of codes for all inductive and coinductive types definable in our type definition language and adjust the closedness requirements (3) and (4), to ensure the following metatheoretic property
+
+For any finite number of definable typeformers, there is a universe in the above hierarhcy, that contains them/is closed under applying them. 
+
+* * *
 
 The language of inductive type definitions and index definitions we used above can be thought of as a syntactic sugar.
 Inductive definitions can be translated to codes (proper expressions inside the type theory) that generate inhabitants of sufficiently large universe types, so the language of type definitions is not a part of the core HOCC, it suffices to have correspoiding introduction rules for W-types in universes. There we'll have the basic universe 𝒰 containing all finite types, the natural numbers, and closed under forming inductive and coinductive types (including dependent ones) by their codes, and a cumulative hierarchy generated by 𝒰:
@@ -220,29 +257,7 @@ Inductive definitions can be translated to codes (proper expressions inside the 
 
 With this approach types and type families are defined by expressions of type 𝒰 (or 𝒰⁺⁽ⁿ⁾ for some fixed `n`), polymorphic types become functions on some sufficiently large universe. We seemingly do not need any signatures, everything involves only bona fide types. But consider the typeformer `List`, which now has the bona fide type `List : 𝒰 → 𝒰`. But how do we apply it to a type living in a higher universe 𝒰⁺? We need a lifting operator (↑) that to lift `List : 𝒰 → 𝒰` into `↑List : 𝒰⁺ → 𝒰⁺`. It turns out, lift operators must be indexed by the signatures of the type formers they lift, the source universe and the target universe. Thus the language of the signatures still must be a part of the core HOCC, but fully polymorphic (i.e. without restriction to a particular universe) typeformers are emulated by functions on universes and lifting.
 
-So let us describe the language of typeformer signagures. A type former is either a simple type, or be polymorphic, or indexed, 
-
-A valid typeformer signature is given by 
-- `*`
-- `index → signature`
-- `signature → signature`
-
-Here the signatures on the right hand side may depend on paramerers on the left hand side, and any type can be made into an index without any arrows by `[_]`-operator. Here are some examples of valid signatures:
-```
-  *
-  [Nat] → *
-  * → *
-  * → (Δ⁺ → *)
-  (T : *) → Monoid[T] → *
-  
-```
-  
-Here are some invalid ones:
-```
-  * → [Nat]
-  Δ⁺ → Δ
-```
-
+So let us describe the language of typeformer signagures. 
 There are two operations or signatures:
 - specialization of signature to a given universe `U` is a type obtained by replacing all occurences or `*` by `U`.
 - generalization of signature 𝔖 by a signature 𝔅 is a new signature, where one particular strictly-positive occurence of `*` by `(𝔅 → *)`, which corresponds to transferring a construction from a universe to a presheaf valued in this universe.
